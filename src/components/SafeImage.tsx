@@ -44,9 +44,10 @@ export function SafeImage({ src, alt, className, onLoad, ...props }: SafeImagePr
     <img 
       src={currentSrc} 
       alt={alt} 
-      className={`${className} transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      className={`${className} transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} select-none pointer-events-none`}
       onError={handleError}
       onLoad={handleLoad}
+      draggable={false}
       {...props} 
     />
   );

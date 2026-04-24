@@ -37,11 +37,30 @@ export function CustomCursor() {
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
 
+    // Prevent context menu and drag on images
+    const handleGlobalContextMenu = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName.toLowerCase() === 'img' || target.closest('img')) {
+        e.preventDefault();
+      }
+    };
+    const handleGlobalDragStart = (e: DragEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName.toLowerCase() === 'img' || target.closest('img')) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener('contextmenu', handleGlobalContextMenu);
+    window.addEventListener('dragstart', handleGlobalDragStart);
+
     return () => {
       window.removeEventListener('mousemove', moveCursor);
       window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('contextmenu', handleGlobalContextMenu);
+      window.removeEventListener('dragstart', handleGlobalDragStart);
     };
   }, [cursorX, cursorY]);
 
