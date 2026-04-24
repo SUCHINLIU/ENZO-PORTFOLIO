@@ -54,6 +54,27 @@ export function CustomCursor() {
     window.addEventListener('contextmenu', handleGlobalContextMenu);
     window.addEventListener('dragstart', handleGlobalDragStart);
 
+    // Screenshot Protection
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Block PrintScreen
+      if (e.key === 'PrintScreen') {
+        e.preventDefault();
+        alert('为了保护版权，已禁用截图功能 // SCREENSHOT DISABLED');
+      }
+
+      // Block Cmd+Shift+3/4/5 (Mac) or Ctrl+Shift+S (some Win tools)
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === '3' || e.key === '4' || e.key === '5' || e.key.toLowerCase() === 's')) {
+        e.preventDefault();
+      }
+
+      // Block Cmd+Option+E (some tools) or other common capture keys
+      if ((e.metaKey || e.ctrlKey) && (e.key.toLowerCase() === 'p')) {
+        e.preventDefault(); // Block Print
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       window.removeEventListener('mousemove', moveCursor);
       window.removeEventListener('mouseover', handleMouseOver);
@@ -61,6 +82,7 @@ export function CustomCursor() {
       window.removeEventListener('mouseup', handleMouseUp);
       window.removeEventListener('contextmenu', handleGlobalContextMenu);
       window.removeEventListener('dragstart', handleGlobalDragStart);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [cursorX, cursorY]);
 

@@ -271,7 +271,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                  {s.gallery.slice(0, 2).map((img, i) => (
                                    <motion.div 
-                                     key={`${id}-series-a-row1-${i}`}
+                                     key={`${id}-series-${idx}-row1-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -289,7 +289,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                                     {s.gallery.slice(2, 6).map((img, i) => (
                                       <motion.div 
-                                        key={`${id}-series-a-row2-${i}`}
+                                        key={`${id}-series-${idx}-row2-${i}`}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
@@ -306,7 +306,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
                                     {s.gallery.slice(6, 9).map((img, i) => (
                                       <motion.div 
-                                        key={`${id}-series-a-row3-${i}`}
+                                        key={`${id}-series-${idx}-row3-${i}`}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
@@ -326,7 +326,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                  {s.gallery.slice(0, 2).map((img, i) => (
                                    <motion.div 
-                                     key={`${id}-series-b-row1-${i}`}
+                                     key={`${id}-series-${idx}-row1-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -341,7 +341,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                                  {s.gallery.slice(2, 6).map((img, i) => (
                                    <motion.div 
-                                     key={`${id}-series-b-row2-${i}`}
+                                     key={`${id}-series-${idx}-row2-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -357,7 +357,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                                 {s.gallery.map((img, i) => (
                                   <motion.div 
-                                    key={`${id}-series-fallback-item-${i}`}
+                                    key={`${id}-series-${idx}-fallback-item-${i}`}
                                     initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}

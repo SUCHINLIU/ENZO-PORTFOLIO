@@ -441,7 +441,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                     }`}>
                       {(projects[selectedProject].gallery || []).map((img, i) => (
                         <motion.div
-                          key={`${id}-gallery-item-${i}`}
+                          key={`${id}-project-${selectedProject}-gallery-item-${i}`}
                           initial={{ opacity: 0, y: 40 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true, margin: "-50px" }}
@@ -479,7 +479,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                          </h4>
                          <div className="space-y-6 inline-flex flex-col items-start mx-auto">
                           {projects[selectedProject].details.map((detail, i) => (
-                            <div key={`${id}-detail-bullet-${i}`} className="flex items-center gap-6">
+                            <div key={`${id}-project-${selectedProject}-detail-bullet-${i}`} className="flex items-center gap-6">
                               <div className="w-1 h-px bg-[#1a1a1a]/30" />
                               <span className="font-sans text-sm text-[#555555] font-light tracking-wide">{detail}</span>
                             </div>

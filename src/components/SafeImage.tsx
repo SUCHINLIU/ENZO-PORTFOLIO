@@ -9,10 +9,17 @@ export function SafeImage({ src, alt, className, onLoad, ...props }: SafeImagePr
   const [triedAlternatives, setTriedAlternatives] = React.useState<string[]>([]);
   const [isLoaded, setIsLoaded] = React.useState(false);
 
+  const imgRef = React.useRef<HTMLImageElement>(null);
+
   React.useEffect(() => {
     setCurrentSrc(src);
     setTriedAlternatives([]);
-    setIsLoaded(false);
+    // Only reset isLoaded if src actually changed or if the ref is not complete
+    if (imgRef.current && imgRef.current.complete && imgRef.current.src === src) {
+      setIsLoaded(true);
+    } else {
+      setIsLoaded(false);
+    }
   }, [src]);
 
   const handleError = () => {
@@ -42,9 +49,10 @@ export function SafeImage({ src, alt, className, onLoad, ...props }: SafeImagePr
 
   return (
     <img 
+      ref={imgRef}
       src={currentSrc} 
       alt={alt} 
-      className={`${className} transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} select-none pointer-events-none`}
+      className={`${className} transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} select-none`}
       onError={handleError}
       onLoad={handleLoad}
       draggable={false}
