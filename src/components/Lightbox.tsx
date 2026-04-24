@@ -44,6 +44,7 @@ export function Lightbox({ images, startIndex, isOpen, onClose }: LightboxProps)
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          key="lightbox-container"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

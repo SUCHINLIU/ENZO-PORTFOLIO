@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useId } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRight, ArrowLeft } from 'lucide-react';
 import { RippleEffect } from './RippleEffect';
@@ -19,61 +19,61 @@ const otherWorks = [
     id: '01',
     title: '视觉排版与编辑设计',
     category: '视觉排版 / Typography',
-    image: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ1.jpg',
+    image: 'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ1.jpg',
     description: '探索字体、网格与空间的实验性排版。将时装的结构感延伸至平面视觉，构建强烈的视觉冲击力。',
     fullDescription: '这一系列作品致力于打破传统的平面排版规则，通过对字体的结构、比例以及负空间的深度研究，创造出一种具有建筑美感的视觉语言。',
     gallery: [
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ1.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ2.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ3.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ4.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ5.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ6.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ7.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ8.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ9.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ10.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ11.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ12.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ13.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/ZJ14.png'
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ4.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ5.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ6.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ7.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ8.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ9.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ10.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ11.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ12.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ13.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/ZJ14.jpg'
     ]
   },
   {
     id: '02',
     title: '创意概念设计',
     category: '创意设计 / Creative',
-    image: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B1%E4%B8%BB%E5%9B%BE.jpg',
+    image: 'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B1%E4%B8%BB%E5%9B%BE.png',
     description: '跳脱商业设计，直抒内心世界、情绪化的创意设计。结合非传统设计手法以及工艺，打造更具先锋概念的设计。',
     fullDescription: '创意概念设计是我们探索未来时尚形态的实验室。我们不局限于单一的媒介，而是通过跨界的思维，将抽象的艺术概念转化为可感知的时尚叙事。通过对材料的综合应用，构建出极具未来感的视觉场域。',
     series: [
       {
         title: '系列 A // 独白.悲喜自渡',
         subtitle: '将焦虑过程可视化，从压力到自渡，拒绝妥协，爱自己是答案。',
-        hero: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B1%E4%B8%BB%E5%9B%BE.jpg',
+        hero: 'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B1%E4%B8%BB%E5%9B%BE.png',
         gallery: [
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B11-1.jpg',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B11-2.jpg',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B12-1.png',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B12-2.png',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B12-3.png',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B12-4.png',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B13-1.png',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B13-2.png',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B13-3.png'
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B11-1.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B11-2.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B12-1.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B12-2.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B12-3.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B12-4.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B13-1.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B13-2.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B13-3.jpg'
         ]
       },
       {
         title: '系列 B // SHUANGSHENG',
         subtitle: '冬季废土与解构主义视觉实验',
-        hero: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B2%E9%A6%96%E5%9B%BE.jpg',
+        hero: 'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B2%E9%A6%96%E5%9B%BE.png',
         gallery: [
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B22-1.jpg',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B22-2.jpg',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B21-1.jpg',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B21-2.jpg',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B21-3.jpg',
-          'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/B21-4.jpg'
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B22-1.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B22-2.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B21-1.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B21-2.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B21-3.jpg',
+          'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/B21-4.jpg'
         ]
       }
     ]
@@ -81,6 +81,7 @@ const otherWorks = [
 ];
 
 export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayProps) {
+  const id = useId();
   const [view, setView] = useState<'directory' | 'detail'>('directory');
   const [selectedWork, setSelectedWork] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -152,7 +153,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                 <div className="space-y-32">
                   {otherWorks.map((work, index) => (
                     <div 
-                      key={work.id} 
+                      key={`${id}-work-directory-item-${work.id}`} 
                       onClick={() => handleWorkClick(index)}
                       className={`grid grid-cols-1 md:grid-cols-2 gap-24 items-center cursor-pointer group ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
                     >
@@ -207,14 +208,26 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
 
                 {/* Conditional Rendering: FlipBook for Typography, Standard for others */}
                 {selectedWork === 0 ? (
-                  <div className="min-h-[80vh] flex flex-col items-center justify-center py-20 bg-[#f4f4f4]">
-                    <FlipBook 
-                      images={otherWorks[0].gallery} 
-                      onImageClick={(src) => {
-                        const idx = otherWorks[0].gallery.indexOf(src);
-                        setLightbox({ images: otherWorks[0].gallery, index: idx });
-                      }}
-                    />
+                  <div className="flex flex-col">
+                    {/* Intro */}
+                    <div className="max-w-6xl mx-auto px-6 py-20 text-center space-y-8">
+                       <span className="font-mono text-[10px] tracking-[0.5em] text-black/40 uppercase">TYPOGRAPHY ARCHIVE 01</span>
+                       <h2 className="font-serif text-5xl md:text-7xl italic text-black leading-tight">视觉排版与编辑设计</h2>
+                       <p className="font-sans text-lg text-[#555555] leading-relaxed max-w-2xl mx-auto font-light">
+                         {otherWorks[0].fullDescription}
+                       </p>
+                       <div className="w-12 h-px bg-black mx-auto" />
+                    </div>
+
+                    <div className="min-h-[80vh] flex flex-col items-center justify-center py-20 bg-[#f4f4f4] border-y border-black/5">
+                      <FlipBook 
+                        images={otherWorks[0].gallery} 
+                        onImageClick={(src) => {
+                          const idx = otherWorks[0].gallery.indexOf(src);
+                          setLightbox({ images: otherWorks[0].gallery, index: idx });
+                        }}
+                      />
+                    </div>
                   </div>
                 ) : selectedWork === 1 ? (
                   <div className="flex flex-col">
@@ -226,7 +239,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                     </div>
 
                     {otherWorks[1].series?.map((s, idx) => (
-                      <div key={idx} className="mb-40 last:mb-0">
+                      <div key={`${id}-series-container-${idx}`} className="mb-40 last:mb-0">
                         {/* Series Hero */}
                         <section className="w-full aspect-video relative overflow-hidden bg-black/5 mb-16 px-6">
                            <div className="w-full h-full relative overflow-hidden rounded-sm">
@@ -258,7 +271,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                  {s.gallery.slice(0, 2).map((img, i) => (
                                    <motion.div 
-                                     key={`r1-${i}`}
+                                     key={`${id}-series-a-row1-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -276,7 +289,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                                     {s.gallery.slice(2, 6).map((img, i) => (
                                       <motion.div 
-                                        key={`r2-detail-${i}`}
+                                        key={`${id}-series-a-row2-${i}`}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
@@ -293,7 +306,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
                                     {s.gallery.slice(6, 9).map((img, i) => (
                                       <motion.div 
-                                        key={`r3-detail-${i}`}
+                                        key={`${id}-series-a-row3-${i}`}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
@@ -313,7 +326,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                  {s.gallery.slice(0, 2).map((img, i) => (
                                    <motion.div 
-                                     key={`b-r1-${i}`}
+                                     key={`${id}-series-b-row1-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -328,7 +341,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                                  {s.gallery.slice(2, 6).map((img, i) => (
                                    <motion.div 
-                                     key={`b-r2-${i}`}
+                                     key={`${id}-series-b-row2-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -344,7 +357,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                                 {s.gallery.map((img, i) => (
                                   <motion.div 
-                                    key={i}
+                                    key={`${id}-series-fallback-item-${i}`}
                                     initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
@@ -414,7 +427,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                         <div className="grid grid-cols-2 gap-8">
                           {otherWorks[selectedWork].gallery.map((img, i) => (
                             <div 
-                              key={i} 
+                              key={`${id}-other-work-gallery-item-${i}`} 
                               className="aspect-square overflow-hidden rounded-sm grayscale opacity-80 contrast-[1.05] hover:opacity-100 transition-opacity duration-700 cursor-zoom-in"
                               onClick={() => {
                                 const gallery = [otherWorks[selectedWork].image, ...otherWorks[selectedWork].gallery];

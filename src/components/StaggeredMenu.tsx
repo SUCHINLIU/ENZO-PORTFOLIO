@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useId } from 'react';
 import gsap from 'gsap';
 import './StaggeredMenu.css';
 
@@ -23,6 +23,7 @@ const menuItems = [
 ];
 
 export function StaggeredMenu({ isOpen, setIsOpen, onFleetClick, onAboutClick, onCommercialClick, onPatternClick, onOtherClick, onContactClick }: StaggeredMenuProps) {
+  const id = useId();
   const menuRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const preLayerRef1 = useRef<HTMLDivElement>(null);
@@ -152,7 +153,7 @@ export function StaggeredMenu({ isOpen, setIsOpen, onFleetClick, onAboutClick, o
             </div>
             {menuItems.map((item, i) => (
               <div 
-                key={item.name} 
+                key={`${id}-menu-item-${item.en}`} 
                 className="overflow-hidden mb-8"
                 onClick={() => handleItemClick(item.action)}
               >
@@ -173,7 +174,7 @@ export function StaggeredMenu({ isOpen, setIsOpen, onFleetClick, onAboutClick, o
 
           <div className="relative z-10 mb-8 pt-8 border-t-[0.5px] border-black/10">
             <p className="font-mono text-[9px] text-black/40 tracking-tight leading-relaxed">
-              ACCESS_AUTH: SUCHIN_LIU // DESIGNER<br />
+              ACCESS_AUTH: ENZO_LIU // DESIGNER<br />
               TERM_CONN: SECURE_MD5<br />
               © 2025 ALL RIGHTS RESERVED.
             </p>

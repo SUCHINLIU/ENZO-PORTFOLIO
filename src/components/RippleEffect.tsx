@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useId } from 'react';
 
 const RIPPLE_COUNT = 80;
 const DISTANCE_THRESHOLD = 25;
@@ -24,6 +24,8 @@ export function RippleEffect({ containerRef, className = "fixed inset-0", zIndex
   const lastPosRef = useRef({ x: -1000, y: -1000 });
   const currentIndexRef = useRef(0);
   const animationFrameRef = useRef<number>(0);
+
+  const id = useId();
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -124,7 +126,7 @@ export function RippleEffect({ containerRef, className = "fixed inset-0", zIndex
       </svg>
       {Array.from({ length: RIPPLE_COUNT }).map((_, i) => (
         <div
-          key={i}
+          key={`${id}-ripple-dot-${i}`}
           ref={(el) => { rippleElementsRef.current[i] = el; }}
           className="absolute rounded-full opacity-0 pointer-events-none"
           style={{

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useId } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { RippleEffect } from './RippleEffect';
@@ -13,20 +13,21 @@ interface PatternOverlayProps {
 }
 
 const patternFiles = [
-  'TA1-1.png', 'TA1-2.png', 'TA1-3.jpg', 'TA1-4.jpg', 'TA1-5.png',
+  'TA1-1.jpg', 'TA1-2.jpg', 'TA1-3.jpg', 'TA1-4.jpg', 'TA1-5.jpg',
   'TA2-1.jpg', 'TA2-2.jpg', 'TA2-3.jpg', 'TA2-4.jpg', 'TA2-5.jpg',
   'TA3-1.jpg', 'TA3-2.jpg', 'TA3-3.jpg', 'TA3-4.jpg', 'TA3-5.jpg',
-  'TA4-1.png', 'TA4-2.jpg', 'TA5-3.jpg', 'TA5-4.jpg', 'TA5-5.jpg',
+  'TA4-1.jpg', 'TA4-2.jpg', 'TA5-3.jpg', 'TA5-4.jpg', 'TA5-5.jpg',
   'TA5-1.jpg', 'TA5-2.jpg', 'TA4-3.jpg', 'TA4-4.jpg', 'TA4-5.jpg'
 ];
 
 const patterns = patternFiles.map((filename, i) => ({
   id: (i + 1).toString().padStart(2, '0'),
-  image: `https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/${filename}`,
+  image: `https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/${filename}`,
   originalFilename: filename
 }));
 
 export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverlayProps) {
+  const id = useId();
   const [selectedPattern, setSelectedPattern] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
@@ -109,7 +110,7 @@ export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverl
             <div className="grid grid-cols-2 md:grid-cols-5 gap-x-8 gap-y-16">
               {patterns.map((pattern, index) => (
                 <motion.div
-                  key={pattern.id}
+                  key={`${id}-pattern-grid-item-${pattern.id}`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -123,7 +124,7 @@ export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverl
                     </span>
                   </div>
                   
-                  <div className="relative aspect-[3/4] overflow-hidden rounded-sm grayscale group-hover:grayscale-0 transition-all duration-1000">
+                  <div className="relative aspect-[3/4] overflow-hidden rounded-sm grayscale group-hover:grayscale-0 transition-all duration-1000 bg-stone-100">
                     <SafeImage 
                       src={pattern.image} 
                       alt=""
@@ -140,6 +141,7 @@ export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverl
           <AnimatePresence>
             {selectedPattern !== null && (
               <div 
+                key={`${id}-pattern-detail-${selectedPattern}`}
                 className="fixed inset-0 z-[200] flex items-center justify-center p-4"
                 onClick={closeDetail}
               >
@@ -166,7 +168,7 @@ export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverl
 
                 {/* Auto-fit Container matching viewport size */}
                 <motion.div 
-                  key={selectedPattern}
+                  key={`${id}-pattern-enlarge-${selectedPattern}`}
                   layoutId={selectedPattern !== null ? `pattern-${patterns[selectedPattern].id}` : undefined}
                   className="relative max-w-[90vw] max-h-[90vh] z-[210] flex items-center justify-center"
                   initial={{ scale: 0.95, opacity: 0 }}

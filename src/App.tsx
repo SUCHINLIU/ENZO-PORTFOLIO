@@ -61,6 +61,7 @@ export default function App() {
       <AnimatePresence>
         {!isAnyOverlayOpen && (
           <motion.div 
+            key="home-content"
             className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none px-6"
             variants={containerVariants}
             initial="hidden"

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useId } from 'react';
 import HTMLPageFlip from 'react-pageflip';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { SafeImage } from './SafeImage';
@@ -10,6 +10,7 @@ interface FlipBookProps {
 
 export function FlipBook({ images, onImageClick }: FlipBookProps) {
   const bookRef = useRef<any>(null);
+  const id = useId();
 
   const onNextPage = useCallback(() => {
     bookRef.current?.pageFlip()?.flipNext();
@@ -39,10 +40,10 @@ export function FlipBook({ images, onImageClick }: FlipBookProps) {
             maxHeight={1428}
             drawShadow={true}
             flippingTime={1000}
-            usePortrait={true}
+            usePortrait={false}
             startPage={0}
             autoSize={true}
-            showCover={false}
+            showCover={true}
             mobileScrollSupport={true}
             className="editorial-book"
             ref={bookRef}
@@ -58,7 +59,7 @@ export function FlipBook({ images, onImageClick }: FlipBookProps) {
             {images.map((img, index) => {
               const isCover = index === 0 || index === images.length - 1;
               return (
-                <div key={index} className="page bg-[#fdfdfd] h-full w-full relative">
+                <div key={`${id}-page-${index}`} className="page bg-[#fdfdfd] h-full w-full relative">
                   <div className="page-content h-full w-full flex items-center justify-center relative">
                     {/* Subtle page edge shadow */}
                     <div className="absolute inset-0 bg-gradient-to-r from-black/[0.03] via-transparent to-black/[0.03] pointer-events-none" />
@@ -121,7 +122,7 @@ export function FlipBook({ images, onImageClick }: FlipBookProps) {
       <div className="mt-16 flex flex-col items-center gap-4">
         <div className="flex gap-2">
           {images.map((_, i) => (
-             <div key={i} className="w-1.5 h-1.5 rounded-full bg-black/10" />
+             <div key={`${id}-book-dot-${i}`} className="w-1.5 h-1.5 rounded-full bg-black/10" />
           ))}
         </div>
         <p className="font-sans text-[9px] tracking-[0.4em] text-black/40 uppercase">

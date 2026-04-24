@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { motion } from 'motion/react';
 
 interface RevealTextProps {
@@ -16,6 +16,7 @@ export const RevealText: React.FC<RevealTextProps> = ({
   stagger = 0.02,
   once = true 
 }) => {
+  const id = useId();
   const characters = text.split("");
 
   const container = {
@@ -60,7 +61,7 @@ export const RevealText: React.FC<RevealTextProps> = ({
     >
       {characters.map((char, index) => (
         <motion.span
-          key={index}
+          key={`reveal-char-${id}-${index}-${char}`}
           className="inline-block"
           variants={child}
         >
@@ -78,6 +79,7 @@ export const RevealWords: React.FC<RevealTextProps> = ({
   stagger = 0.05,
   once = true 
 }) => {
+  const id = useId();
   const words = text.split(" ");
 
   const container = {
@@ -121,7 +123,7 @@ export const RevealWords: React.FC<RevealTextProps> = ({
       viewport={{ once }}
     >
       {words.map((word, index) => (
-        <span key={index} className="inline-block overflow-hidden mr-[0.25em] last:mr-0">
+        <span key={`reveal-word-${id}-${index}-${word}`} className="inline-block overflow-hidden mr-[0.25em] last:mr-0">
           <motion.span
             className="inline-block origin-bottom"
             variants={child}
@@ -141,6 +143,7 @@ export const PerspectiveReveal: React.FC<RevealTextProps> = ({
   stagger = 0.03,
   once = true 
 }) => {
+  const id = useId();
   const characters = text.split("");
 
   const container = {
@@ -187,7 +190,7 @@ export const PerspectiveReveal: React.FC<RevealTextProps> = ({
     >
       {characters.map((char, index) => (
         <motion.span
-          key={index}
+          key={`perspective-char-${id}-${index}-${char}`}
           className="inline-block origin-top"
           variants={child}
         >

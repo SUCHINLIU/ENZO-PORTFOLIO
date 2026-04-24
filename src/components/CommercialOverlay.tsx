@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useId } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRight, ArrowLeft } from 'lucide-react';
 import { RippleEffect } from './RippleEffect';
 import { RevealText, RevealWords } from './RevealText';
 import { Lightbox } from './Lightbox';
+import { SafeImage } from './SafeImage';
 
 interface CommercialOverlayProps {
   isOpen: boolean;
@@ -18,117 +19,114 @@ const projects = [
     title: '新民族',
     category: '香云纱韵',
     year: '2026',
-    image: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB%E4%B8%BB%E5%9B%BE.png',
+    image: 'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB%E4%B8%BB%E5%9B%BE.png',
     gallery: [
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB1-1.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB1-2.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB1-3.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB1-4.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB2-1.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB2-2.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB2-3.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB2-4.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB3-1.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB3-2.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB3-3.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB3-4.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB1-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB1-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB1-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB1-4.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB2-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB2-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB2-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB2-4.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB3-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB3-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB3-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB3-4.jpg'
     ],
     description: '发掘藏在传统文化长河里的金砂，为非遗工艺传承助力。',
-    process: '。',
+    poeticTitle: '剪裁赋诗于身，\n纤维纳息于地',
+    process: '从历史长河里，从各民族里提取基因，为传统的民族的设计，再次散发其光芒。',
     details: [
       '材质：香云纱/老缎/宋锦',
-      '理念：民族即世界，传承即永恒',
-      '目标：高端民族成衣用户'
-    ],
-    tailImage: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/DB%E5%B0%BE%E5%9B%BE.png'
+      '理念：民族即世界，传承即永恒'
+    ]
   },
   {
     id: '02',
     title: '极简主义',
     category: '贴身叙事',
     year: '2025',
-    image: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX%E4%B8%BB%E5%9B%BE.jpg',
+    image: 'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX%E4%B8%BB%E5%9B%BE.png',
     gallery: [
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX1-1.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX1-2.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX1-3.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX1-4.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX2-1.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX2-2.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX2-3.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX2-4.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX3-1.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX3-2.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX3-3.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX3-4.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX1-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX1-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX1-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX1-4.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX2-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX2-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX2-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX2-4.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX3-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX3-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX3-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX3-4.jpg'
     ],
     description: '舒适耐穿，永恒设计，居家自在',
+    poeticTitle: '极简筑就永恒，\n质感诉说纯粹',
     process: '回归面料的原始质感，采用极简的设计风格，为每一个实穿主义而生。逃离趋势，提升穿着寿命，减少资源的损耗。',
     details: [
       '材质：有机棉与天丝羊毛',
-      '理念：永恒的简约',
-      '目标：实穿主义消费者'
-    ],
-    tailImage: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/RX%E5%B0%BE%E5%9B%BE.png'
+      '理念：永恒的简约'
+    ]
   },
   {
     id: '03',
     title: '都市森林',
     category: '轻户外系列',
     year: '2025',
-    image: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF%E4%B8%BB%E5%9B%BE.jpg',
+    image: 'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF%E4%B8%BB%E5%9B%BE.png',
     gallery: [
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF1-1.png',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF1-2.png',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF1-3.png',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF2-1.png',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF2-2.png',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF2-3.png',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF3-1.png',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF3-2.png',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF3-3.png',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF1-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF1-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF1-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF2-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF2-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF2-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF3-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF3-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF3-3.jpg'
     ],
     description: '山野自在，城市穿行，一件从容。',
+    poeticTitle: '山野融于都市，\n从容步履之间',
     process: '研究都市游民的着装习惯，采用轻纺针织和户外面料的结合。',
     details: [
       '材质：轻纺针织/户外面料',
-      '理念：理想实用性',
-      '目标：都市旅行者'
-    ],
-    tailImage: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/CF%E5%B0%BE%E5%9B%BE.jpg'
+      '理念：理想实用性'
+    ]
   },
   {
     id: '04',
     title: '潮汐逆流',
     category: '街头流行线',
     year: '2024',
-    image: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD%E4%B8%BB%E5%9B%BE.png',
+    image: 'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD%E4%B8%BB%E5%9B%BE.png',
     gallery: [
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD1-1.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD1-2.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD1-3.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD1-4.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD2-1.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD2-2.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD2-3.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD2-4.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD3-1.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD3-2.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD3-3.jpg',
-      'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD3-4.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD1-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD1-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD1-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD1-4.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD2-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD2-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD2-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD2-4.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD3-1.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD3-2.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD3-3.jpg',
+      'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD3-4.jpg'
     ],
     description: '脉动重构，街头热能，潮汐逆流。',
+    poeticTitle: '潮流循迹而动，\n街头重塑真我',
     process: '从城市能量中提取脉冲，转化为服装剪裁与新兴服用材质，打造动态可穿的潮流系统。',
     details: [
       '材质：定制针织面料/回收塑料聚酯纤维',
-      '理念：趋势机动派',
-      '目标：街头探索者'
-    ],
-    tailImage: 'https://raw.githubusercontent.com/SUCHINLIU/Portfolio/main/TD%E5%B0%BE%E5%9B%BE.png'
+      '理念：趋势机动派'
+    ]
   }
 ];
 
 export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: CommercialOverlayProps) {
+  const id = useId();
   const [view, setView] = useState<'hero' | 'detail'>('hero');
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -253,7 +251,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                     {projects.map((project, index) => (
                       <motion.div
-                        key={project.id}
+                        key={`${id}-directory-project-${project.id}`}
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 + index * 0.1, duration: 0.8, ease }}
@@ -261,7 +259,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                         onClick={() => handleProjectSelect(index)}
                         className="group cursor-pointer relative aspect-[3/4] overflow-hidden rounded-2xl bg-[#f5f5f7] shadow-sm hover:shadow-2xl transition-all duration-500"
                       >
-                        <motion.img 
+                        <SafeImage 
                           src={project.image} 
                           alt={project.title}
                           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale contrast-[1.1] opacity-90 transition-all duration-1000 group-hover:grayscale-0"
@@ -334,7 +332,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                 <div className="fixed right-8 top-1/2 -translate-y-1/2 z-[160] hidden xl:flex flex-col gap-12 items-end">
                   {projects.map((project, idx) => (
                     <button
-                      key={project.id}
+                      key={`${id}-side-nav-project-${project.id}`}
                       onClick={() => jumpToProject(idx)}
                       className="group flex items-center gap-6 text-right transition-all duration-500"
                     >
@@ -392,13 +390,13 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                       animate={{ scale: 1 }}
                       transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <img 
+                      <SafeImage 
                         src={projects[selectedProject].image} 
                         className="w-full h-full object-cover grayscale contrast-[1.1] cursor-zoom-in"
                         alt="Hero"
                         referrerPolicy="no-referrer"
                         onClick={() => {
-                          const gallery = [projects[selectedProject].image, ...projects[selectedProject].gallery, ...(projects[selectedProject].tailImage ? [projects[selectedProject].tailImage] : [])];
+                          const gallery = [projects[selectedProject].image, ...projects[selectedProject].gallery];
                           setLightbox({ images: gallery, index: 0 });
                         }}
                       />
@@ -443,7 +441,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                     }`}>
                       {(projects[selectedProject].gallery || []).map((img, i) => (
                         <motion.div
-                          key={i}
+                          key={`${id}-gallery-item-${i}`}
                           initial={{ opacity: 0, y: 40 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true, margin: "-50px" }}
@@ -454,11 +452,11 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                               : 'aspect-[3/4]'
                           }`}
                           onClick={() => {
-                            const gallery = [projects[selectedProject].image, ...projects[selectedProject].gallery, ...(projects[selectedProject].tailImage ? [projects[selectedProject].tailImage] : [])];
+                            const gallery = [projects[selectedProject].image, ...projects[selectedProject].gallery];
                             setLightbox({ images: gallery, index: i + 1 });
                           }}
                         >
-                          <motion.img 
+                          <SafeImage 
                             src={img} 
                             className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105"
                             alt={`Lookbook ${i+1}`}
@@ -474,30 +472,19 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                     </div>
 
                     {/* Details Section */}
-                    <div className="mt-48 grid grid-cols-1 md:grid-cols-2 gap-24 items-center border-t border-black/5 pt-32">
-                       <div className="space-y-12">
-                         <h4 className="font-serif text-4xl italic text-black leading-tight">
-                           剪裁赋诗于身，<br />纤维纳息于地
+                    <div className="mt-48 flex flex-col items-center border-t border-black/5 pt-32 text-center">
+                       <div className="space-y-12 max-w-2xl">
+                         <h4 className="font-serif text-4xl italic text-black leading-tight whitespace-pre-line">
+                           {projects[selectedProject].poeticTitle}
                          </h4>
-                         <div className="space-y-6">
+                         <div className="space-y-6 inline-flex flex-col items-start mx-auto">
                           {projects[selectedProject].details.map((detail, i) => (
-                            <div key={i} className="flex items-center gap-6">
+                            <div key={`${id}-detail-bullet-${i}`} className="flex items-center gap-6">
                               <div className="w-1 h-px bg-[#1a1a1a]/30" />
                               <span className="font-sans text-sm text-[#555555] font-light tracking-wide">{detail}</span>
                             </div>
                           ))}
                         </div>
-                       </div>
-                       <div className="aspect-[4/5] overflow-hidden rounded-sm cursor-zoom-in" onClick={() => {
-                        const gallery = [projects[selectedProject].image, ...projects[selectedProject].gallery, ...(projects[selectedProject].tailImage ? [projects[selectedProject].tailImage] : [])];
-                        setLightbox({ images: gallery, index: gallery.length - 1 });
-                      }}>
-                          <img 
-                            src={projects[selectedProject].tailImage || `https://picsum.photos/seed/detail-${selectedProject}/800/1000`} 
-                            className="w-full h-full object-cover" 
-                            alt="Detail" 
-                            referrerPolicy="no-referrer" 
-                          />
                        </div>
                     </div>
                   </section>

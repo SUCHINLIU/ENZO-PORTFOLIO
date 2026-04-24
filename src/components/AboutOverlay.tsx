@@ -4,6 +4,8 @@ import { X, ArrowRight, ArrowLeft } from 'lucide-react';
 import { RippleEffect } from './RippleEffect';
 import { RevealText, RevealWords, PerspectiveReveal } from './RevealText';
 
+import { SafeImage } from './SafeImage';
+
 interface AboutOverlayProps {
   isOpen: boolean;
   onClose: () => void;
@@ -55,9 +57,9 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
             >
-              <img 
-                src="https://picsum.photos/seed/enzo-studio/1920/1080?grayscale" 
-                alt="SUCHIN_LIU"
+              <SafeImage 
+                src="https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B.jpg" 
+                alt="ENZO LIU"
                 className="w-full h-full object-cover grayscale contrast-[1.1] opacity-90 transition-all duration-1000"
                 referrerPolicy="no-referrer"
               />
@@ -93,9 +95,9 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
                     </p>
                   </div>
                   <div className="space-y-4">
-                    <h4 className="mono-label">期望城市 // EXPECTED CITY</h4>
+                    <h4 className="mono-label">微信 // WECHAT</h4>
                     <p className="font-sans text-xs text-black/60 leading-loose">
-                      上海 // 杭州
+                      SUCHIN_LIU
                     </p>
                   </div>
                 </div>
