@@ -49,24 +49,7 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
             </button>
           </div>
 
-          {/* Full Width Hero Photo (16:9 Aspect Ratio) */}
-          <section className="w-full relative overflow-hidden aspect-video">
-            <motion.div 
-              className="absolute inset-0"
-              initial={{ scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <SafeImage 
-                src="https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B.jpg" 
-                alt="ENZO LIU"
-                className="w-full h-full object-cover grayscale contrast-[1.1] opacity-90 transition-all duration-1000"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-black/10" />
-            </motion.div>
-          </section>
-
+          {/* Content Section */}
           <div className="max-w-6xl mx-auto px-6 py-24 md:py-40">
             <div className="space-y-16">
               {/* Content */}
@@ -87,17 +70,11 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-12 pt-8 border-t border-black/5">
+                <div className="pt-8 border-t border-black/5">
                   <div className="space-y-4">
                     <h4 className="mono-label">风格趋向 // STYLE</h4>
                     <p className="font-sans text-xs text-black/60 leading-loose">
                       先锋时尚 / 极简主义 / 新传统主义
-                    </p>
-                  </div>
-                  <div className="space-y-4">
-                    <h4 className="mono-label">微信 // WECHAT</h4>
-                    <p className="font-sans text-xs text-black/60 leading-loose">
-                      SUCHIN_LIU
                     </p>
                   </div>
                 </div>
@@ -105,7 +82,7 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
                 <div className="py-12 border-y border-black/5 space-y-6">
                   <h4 className="mono-label">设计宣言 // MANIFESTO</h4>
                   <p className="font-serif text-xl md:text-2xl text-black leading-relaxed italic opacity-80">
-                    <RevealWords text='"我不只是在设计衣服，我是在缔结一种身体与环境的无声契约。在克制的廓形中，保留纤维的温度，在时尚的表象之下，隐藏复杂的叙事。"' delay={0.2} />
+                    <RevealWords text='"我关注一件衣服的起点——面料的触感、结构的秩序、穿着者与日常的关系。"' delay={0.2} />
                   </p>
                 </div>
               </motion.div>
