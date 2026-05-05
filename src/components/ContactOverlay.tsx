@@ -6,7 +6,6 @@ import { RevealWords } from './RevealText';
 interface ContactOverlayProps {
   isOpen: boolean;
   onClose: () => void;
-  onPrev: () => void;
 }
 
 const WeChatIcon = ({ className, size = 18 }: { className?: string, size?: number }) => (
@@ -22,7 +21,7 @@ const WeChatIcon = ({ className, size = 18 }: { className?: string, size?: numbe
   </svg>
 );
 
-export function ContactOverlay({ isOpen, onClose, onPrev }: ContactOverlayProps) {
+export function ContactOverlay({ isOpen, onClose }: ContactOverlayProps) {
   const ease = [0.28, 0.11, 0.32, 1];
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -45,25 +44,10 @@ export function ContactOverlay({ isOpen, onClose, onPrev }: ContactOverlayProps)
         >
           {/* Header */}
           <div className="sticky top-0 z-[120] bg-white/80 backdrop-blur-md flex justify-between items-center px-6 py-6 md:px-12 border-b-[0.5px] border-black/10">
-            <div className="flex items-center gap-8">
-              <button 
-                onClick={onPrev}
-                className="group flex items-center gap-3 text-black hover:opacity-60 transition-opacity"
-              >
-                <ArrowLeft size={16} />
-                <span className="mono-label !opacity-100 uppercase tracking-[0.2em]">返回上级 // RETURN</span>
-              </button>
-              <div className="flex items-center gap-6">
-                <span className="mono-label">索引目录 // 05</span>
-                <h2 className="font-serif text-lg italic text-black">联系方式 // CONTACT</h2>
-              </div>
+            <div className="flex items-center gap-6">
+              <span className="mono-label">索引目录 // 05</span>
+              <h2 className="font-serif text-lg italic text-black">联系方式 // CONTACT</h2>
             </div>
-            <button 
-              onClick={onClose}
-              className="px-6 py-1 text-[10px] font-sans border border-black/10 rounded-full hover:bg-black hover:text-white transition-all duration-300"
-            >
-              关闭会话 // CLOSE
-            </button>
           </div>
 
           <div className="max-w-4xl mx-auto px-6 py-20 md:py-40">

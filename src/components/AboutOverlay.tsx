@@ -7,10 +7,9 @@ import { SafeImage } from './SafeImage';
 interface AboutOverlayProps {
   isOpen: boolean;
   onClose: () => void;
-  onNext: () => void;
 }
 
-export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
+export function AboutOverlay({ isOpen, onClose }: AboutOverlayProps) {
   const ease: any = [0.28, 0.11, 0.32, 1];
   const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -37,12 +36,6 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
               <span className="mono-label">索引目录 // 01</span>
               <h2 className="font-serif text-lg italic text-black">个人简介 // BIOGRAPHY</h2>
             </div>
-            <button 
-              onClick={onClose}
-              className="px-6 py-1 text-[10px] font-sans border border-black/10 rounded-full hover:bg-black hover:text-white transition-all duration-300"
-            >
-              关闭会话 // CLOSE
-            </button>
           </div>
 
           {/* Content Section */}

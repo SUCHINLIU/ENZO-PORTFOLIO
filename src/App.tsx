@@ -138,35 +138,72 @@ export default function App() {
       </AnimatePresence>
 
       {/* Global Minimalist Navigation - Always Present */}
-      <div className="fixed bottom-0 left-0 right-0 z-[160] px-6 py-10 md:px-12 pointer-events-none">
-        <div className="max-w-7xl mx-auto flex justify-between items-end">
-          {/* Prevent showing Prev on Home if desired, but here we loop or show Home */}
+      <div className="fixed bottom-0 left-0 right-0 z-[200] px-6 pb-12 md:px-12 pointer-events-none">
+        <div className="max-w-7xl mx-auto flex justify-between items-end relative">
+          
           <button 
             onClick={handlePrev}
             className={`pointer-events-auto group flex flex-col items-start gap-2 transition-all duration-700 ${activeModule === 0 ? 'opacity-0 -translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}
           >
-            <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">PREVIOUS_MODULE</span>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
-              <span className="font-serif italic text-base md:text-lg text-black/60 group-hover:text-black transition-colors whitespace-nowrap">
-                {activeModule > 0 ? modules[activeModule - 1].name : ''} // {activeModule > 0 ? modules[activeModule - 1].en : ''}
+            <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">PREVIOUS</span>
+            <div className="flex items-center gap-4">
+              <div className="relative w-8 h-[0.5px] bg-black/10 overflow-hidden">
+                <div className="absolute inset-0 bg-black translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
+              </div>
+              <span className="font-serif italic text-sm md:text-base text-black/40 group-hover:text-black transition-colors whitespace-nowrap">
+                {activeModule > 0 ? modules[activeModule - 1].name : ''}
               </span>
             </div>
           </button>
+
+          {/* Module Indicator dots */}
+          <div className="absolute left-1/2 bottom-1 -translate-x-1/2 flex gap-3 pb-1 md:pb-0">
+            {modules.map((m, idx) => (
+              <button
+                key={m.id}
+                onClick={() => setActiveModule(idx)}
+                className={`pointer-events-auto w-1 h-1 rounded-full transition-all duration-700 ${activeModule === idx ? 'bg-black w-4' : 'bg-black/10 hover:bg-black/30'}`}
+                aria-label={`Go to ${m.en}`}
+              />
+            ))}
+          </div>
 
           <button 
             onClick={handleNext}
             className={`pointer-events-auto group flex flex-col items-end gap-2 transition-all duration-700 ${activeModule === modules.length - 1 ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}
           >
-            <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity text-right">NEXT_MODULE</span>
-            <div className="flex items-center gap-3 text-right">
-              <span className="font-serif italic text-base md:text-lg text-black/60 group-hover:text-black transition-colors whitespace-nowrap">
-                {activeModule < modules.length - 1 ? modules[activeModule + 1].name : ''} // {activeModule < modules.length - 1 ? modules[activeModule + 1].en : ''}
+            <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity text-right">NEXT</span>
+            <div className="flex items-center gap-4 text-right">
+              <span className="font-serif italic text-sm md:text-base text-black/40 group-hover:text-black transition-colors whitespace-nowrap">
+                {activeModule < modules.length - 1 ? modules[activeModule + 1].name : ''}
               </span>
-              <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+              <div className="relative w-8 h-[0.5px] bg-black/10 overflow-hidden">
+                <div className="absolute inset-0 bg-black translate-x-[100%] group-hover:translate-x-0 transition-transform duration-500" />
+              </div>
             </div>
           </button>
         </div>
+      </div>
+
+      <div className="fixed top-12 right-12 z-[200] pointer-events-auto">
+         <AnimatePresence>
+           {isAnyOverlayOpen && (
+             <motion.button 
+              initial={{ opacity: 0, scale: 0.9, y: -20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -20 }}
+              transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+              onClick={() => setActiveModule(0)}
+              className="group flex items-center gap-4 bg-white/40 backdrop-blur-md px-6 py-2 rounded-full border border-black/5 hover:bg-white hover:border-black/20 transition-all duration-500"
+             >
+               <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">CLOSE_INDEX</span>
+               <div className="relative w-4 h-4">
+                  <span className="absolute top-1/2 left-0 w-full h-[1px] bg-black rotate-45 transition-transform duration-500 group-hover:rotate-[135deg]" />
+                  <span className="absolute top-1/2 left-0 w-full h-[1px] bg-black -rotate-45 transition-transform duration-500 group-hover:rotate-[45deg]" />
+               </div>
+             </motion.button>
+           )}
+         </AnimatePresence>
       </div>
 
       {/* Ripple trail effect layer - only on home page */}
@@ -176,30 +213,22 @@ export default function App() {
       <AboutOverlay 
         isOpen={activeModule === 1} 
         onClose={() => setActiveModule(0)} 
-        onNext={handleNext}
       />
       <CommercialOverlay 
         isOpen={activeModule === 2} 
         onClose={() => setActiveModule(0)} 
-        onPrev={handlePrev}
-        onNext={handleNext}
       />
       <PatternOverlay 
         isOpen={activeModule === 3} 
         onClose={() => setActiveModule(0)}
-        onPrev={handlePrev}
-        onNext={handleNext}
       />
       <OtherOverlay 
         isOpen={activeModule === 4} 
         onClose={() => setActiveModule(0)}
-        onPrev={handlePrev}
-        onNext={handleNext}
       />
       <ContactOverlay 
         isOpen={activeModule === 5} 
         onClose={() => setActiveModule(0)}
-        onPrev={handlePrev}
       />
     </div>
   );

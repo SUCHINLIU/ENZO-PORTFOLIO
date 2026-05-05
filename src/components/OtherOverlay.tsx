@@ -9,8 +9,6 @@ import { SafeImage } from './SafeImage';
 interface OtherOverlayProps {
   isOpen: boolean;
   onClose: () => void;
-  onPrev: () => void;
-  onNext: () => void;
 }
 
 const otherWorks = [
@@ -79,7 +77,7 @@ const otherWorks = [
   }
 ];
 
-export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayProps) {
+export function OtherOverlay({ isOpen, onClose }: OtherOverlayProps) {
   const id = useId();
   const [view, setView] = useState<'directory' | 'detail'>('directory');
   const [selectedWork, setSelectedWork] = useState<number>(0);
@@ -117,24 +115,20 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
           {/* Header */}
           <div className="sticky top-0 z-[120] bg-white/80 backdrop-blur-md flex justify-between items-center px-6 py-6 md:px-12 border-b-[0.5px] border-black/10">
             <div className="flex items-center gap-8">
-              <button 
-                onClick={view === 'detail' ? handleBackToDirectory : onPrev}
-                className="group flex items-center gap-3 text-black hover:opacity-60 transition-opacity"
-              >
-                <ArrowLeft size={16} />
-                <span className="mono-label !opacity-100 uppercase tracking-[0.2em]">返回上级 // RETURN</span>
-              </button>
+              {view === 'detail' && (
+                <button 
+                  onClick={handleBackToDirectory}
+                  className="group flex items-center gap-3 text-black hover:opacity-60 transition-opacity"
+                >
+                  <ArrowLeft size={16} />
+                  <span className="mono-label !opacity-100 uppercase tracking-[0.2em]">返回目录 // DIRECTORY</span>
+                </button>
+              )}
               <div className="flex items-center gap-6">
                 <span className="mono-label">数字档案 // 04</span>
                 <h2 className="font-serif text-lg italic text-black">其他创意 // EXPLORATION</h2>
               </div>
             </div>
-            <button 
-              onClick={onClose}
-              className="px-6 py-1 text-[10px] font-sans border border-black/10 rounded-full hover:bg-black hover:text-white transition-all duration-300"
-            >
-              关闭会话 // CLOSE
-            </button>
           </div>
 
           <AnimatePresence mode="wait">
