@@ -24,6 +24,7 @@ const WeChatIcon = ({ className, size = 18 }: { className?: string, size?: numbe
 );
 
 export function ContactOverlay({ isOpen, onClose, onPrev }: ContactOverlayProps) {
+  const id = React.useId();
   const ease = [0.28, 0.11, 0.32, 1];
   const containerRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
@@ -38,6 +39,7 @@ export function ContactOverlay({ isOpen, onClose, onPrev }: ContactOverlayProps)
     <AnimatePresence>
       {isOpen && (
         <motion.div 
+          key={`${id}-contact-container`}
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
           initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}

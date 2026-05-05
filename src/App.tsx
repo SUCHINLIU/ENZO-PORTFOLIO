@@ -11,14 +11,16 @@ import { CustomCursor } from './components/CustomCursor';
 import { RevealText, RevealWords, PerspectiveReveal } from './components/RevealText';
 import { SafeImage } from './components/SafeImage';
 import { useImagePreloader } from './hooks/useImagePreloader';
+import { 
+  COMMERCIAL_PROJECTS_HERO, 
+  COMMERCIAL_PROJECTS_GALLERY,
+  OTHER_WORKS_HERO,
+  OTHER_WORKS_GALLERY,
+  PATTERN_IMAGES
+} from './constants/images';
 
-// Critical assets to preload in background
-const CRITICAL_IMAGES = [
-  'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB%E4%B8%BB%E5%9B%BE.png',
-  'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX%E4%B8%BB%E5%9B%BE.png',
-  'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF%E4%B8%BB%E5%9B%BE.png',
-  'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD%E4%B8%BB%E5%9B%BE.png',
-];
+const HERO_IMAGES = [...COMMERCIAL_PROJECTS_HERO, ...OTHER_WORKS_HERO];
+const GALLERY_IMAGES = [...COMMERCIAL_PROJECTS_GALLERY, ...OTHER_WORKS_GALLERY, ...PATTERN_IMAGES];
 
 const textVariants = {
   hidden: { opacity: 0, y: 40, transition: { duration: 0.48, ease: [0.22, 1, 0.36, 1] as any } },
@@ -48,8 +50,11 @@ export default function App() {
 
   const isAnyOverlayOpen = isAboutOpen || isCommercialOpen || isPatternOpen || isOtherOpen || isContactOpen;
 
-  // Preload project images in background
-  useImagePreloader(CRITICAL_IMAGES);
+  // Stage 1: Preload high-priority hero images immediately (after 1s)
+  useImagePreloader(HERO_IMAGES, 1000);
+
+  // Stage 2: Preload all gallery and pattern images in background (after 4s)
+  useImagePreloader(GALLERY_IMAGES, 4000);
 
   return (
     <div className="min-h-screen w-full bg-white text-black overflow-hidden font-sans relative grainy-bg cursor-none">

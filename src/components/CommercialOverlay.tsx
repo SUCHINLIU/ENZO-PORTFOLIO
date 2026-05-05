@@ -5,6 +5,7 @@ import { RippleEffect } from './RippleEffect';
 import { RevealText, RevealWords } from './RevealText';
 import { Lightbox } from './Lightbox';
 import { SafeImage } from './SafeImage';
+import { preloadImages } from '../lib/preloadImages';
 
 interface CommercialOverlayProps {
   isOpen: boolean;
@@ -199,6 +200,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
     <AnimatePresence>
       {isOpen && (
         <motion.div 
+          key={`${id}-commercial-container`}
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
           initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
@@ -257,6 +259,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                         transition={{ delay: 0.4 + index * 0.1, duration: 0.8, ease }}
                         whileHover={{ y: -10 }}
                         onClick={() => handleProjectSelect(index)}
+                        onMouseEnter={() => preloadImages(project.gallery)}
                         className="group cursor-pointer relative aspect-[3/4] overflow-hidden rounded-2xl bg-[#f5f5f7] shadow-sm hover:shadow-2xl transition-all duration-500"
                       >
                         <SafeImage 
@@ -320,7 +323,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
 
             {view === 'detail' && selectedProject !== null && (
               <motion.div
-                key={`detail-${selectedProject}`}
+                key={`commercial-detail-${selectedProject}`}
                 ref={detailRef}
                 className="fixed inset-0 z-[130] bg-white overflow-y-auto custom-scrollbar grainy-bg selection:bg-black selection:text-white"
                 initial={{ opacity: 0 }}
@@ -346,7 +349,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                         </span>
                         {selectedProject === idx && (
                           <motion.div 
-                            layoutId="active-dot"
+                            layoutId={`${id}-active-dot`}
                             className="absolute -bottom-4 w-1 h-1 bg-black rounded-full" 
                           />
                         )}

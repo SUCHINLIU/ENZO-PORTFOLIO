@@ -6,6 +6,7 @@ import { RevealText, RevealWords } from './RevealText';
 import { Lightbox } from './Lightbox';
 import { FlipBook } from './FlipBook';
 import { SafeImage } from './SafeImage';
+import { preloadImages } from '../lib/preloadImages';
 
 interface OtherOverlayProps {
   isOpen: boolean;
@@ -110,6 +111,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
     <AnimatePresence>
       {isOpen && (
         <motion.div 
+          key={`${id}-other-container`}
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
           initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
@@ -155,6 +157,10 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                     <div 
                       key={`${id}-work-directory-item-${work.id}-${index}`} 
                       onClick={() => handleWorkClick(index)}
+                      onMouseEnter={() => {
+                        const urls = work.gallery || work.series?.flatMap(s => [s.hero, ...s.gallery]) || [];
+                        preloadImages(urls);
+                      }}
                       className={`grid grid-cols-1 md:grid-cols-2 gap-24 items-center cursor-pointer group ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
                     >
                       <div className={`space-y-12 ${index % 2 === 1 ? 'md:order-2' : ''}`}>
@@ -188,7 +194,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
               </motion.div>
             ) : (
               <motion.div 
-                key={`detail-${selectedWork}`}
+                key={`other-detail-${selectedWork}`}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}

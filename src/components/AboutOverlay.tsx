@@ -13,6 +13,7 @@ interface AboutOverlayProps {
 }
 
 export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
+  const id = React.useId();
   const ease: any = [0.28, 0.11, 0.32, 1];
   const containerRef = React.useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
@@ -28,6 +29,7 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
     <AnimatePresence>
       {isOpen && (
         <motion.div 
+          key={`${id}-about-container`}
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
           initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}

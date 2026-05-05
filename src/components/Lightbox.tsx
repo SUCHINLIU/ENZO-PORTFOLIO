@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SafeImage } from './SafeImage';
+import { preloadImage } from '../lib/preloadImages';
 
 interface LightboxProps {
   images: string[];
@@ -13,6 +14,16 @@ interface LightboxProps {
 export function Lightbox({ images, startIndex, isOpen, onClose }: LightboxProps) {
   const id = React.useId();
   const [currentIndex, setCurrentIndex] = React.useState(startIndex);
+
+  // Preload siblings whenever currentIndex changes
+  useEffect(() => {
+    if (images.length > 1) {
+      const nextIdx = (currentIndex + 1) % images.length;
+      const prevIdx = (currentIndex - 1 + images.length) % images.length;
+      preloadImage(images[nextIdx]);
+      preloadImage(images[prevIdx]);
+    }
+  }, [currentIndex, images]);
 
   useEffect(() => {
     if (isOpen) {

@@ -4,6 +4,7 @@ import { X, ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-reac
 import { RippleEffect } from './RippleEffect';
 import { RevealText, RevealWords } from './RevealText';
 import { SafeImage } from './SafeImage';
+import { preloadImage } from '../lib/preloadImages';
 
 interface PatternOverlayProps {
   isOpen: boolean;
@@ -41,6 +42,11 @@ export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverl
 
   const handlePatternClick = (index: number) => {
     setSelectedPattern(index);
+    // Preload next and prev for smoother carousel
+    const nextIdx = (index + 1) % patterns.length;
+    const prevIdx = (index - 1 + patterns.length) % patterns.length;
+    preloadImage(patterns[nextIdx].image);
+    preloadImage(patterns[prevIdx].image);
   };
 
   const closeDetail = () => {
@@ -76,6 +82,7 @@ export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverl
     <AnimatePresence>
       {isOpen && (
         <motion.div 
+          key={`${id}-pattern-container`}
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg bg-white"
           initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
