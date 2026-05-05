@@ -4,7 +4,7 @@ interface SafeImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
 }
 
-export function SafeImage({ src, alt, className, onLoad, loading = "lazy", ...props }: SafeImageProps) {
+export function SafeImage({ src, alt, className, onLoad, ...props }: SafeImageProps) {
   const [currentSrc, setCurrentSrc] = React.useState(src);
   const [triedAlternatives, setTriedAlternatives] = React.useState<string[]>([]);
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -14,6 +14,7 @@ export function SafeImage({ src, alt, className, onLoad, loading = "lazy", ...pr
   React.useEffect(() => {
     setCurrentSrc(src);
     setTriedAlternatives([]);
+    // Only reset isLoaded if src actually changed or if the ref is not complete
     if (imgRef.current && imgRef.current.complete && imgRef.current.src === src) {
       setIsLoaded(true);
     } else {
@@ -47,23 +48,15 @@ export function SafeImage({ src, alt, className, onLoad, loading = "lazy", ...pr
   };
 
   return (
-    <div className={`relative overflow-hidden bg-[#f0f0f0] ${className}`}>
-      <img 
-        ref={imgRef}
-        src={currentSrc} 
-        alt={alt} 
-        loading={loading}
-        className={`w-full h-full object-cover transition-all duration-1000 ease-[0.22, 1, 0.36, 1] ${isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-110'} select-none`}
-        onError={handleError}
-        onLoad={handleLoad}
-        draggable={false}
-        {...props} 
-      />
-      {!isLoaded && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-4 h-4 border border-black/10 border-t-black/40 rounded-full animate-spin" />
-        </div>
-      )}
-    </div>
+    <img 
+      ref={imgRef}
+      src={currentSrc} 
+      alt={alt} 
+      className={`${className} transition-all duration-1000 ease-[0.22, 1, 0.36, 1] ${isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'} select-none`}
+      onError={handleError}
+      onLoad={handleLoad}
+      draggable={false}
+      {...props} 
+    />
   );
 }

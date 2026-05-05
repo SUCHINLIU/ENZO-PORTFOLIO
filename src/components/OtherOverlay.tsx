@@ -6,8 +6,6 @@ import { RevealText, RevealWords } from './RevealText';
 import { Lightbox } from './Lightbox';
 import { FlipBook } from './FlipBook';
 import { SafeImage } from './SafeImage';
-import { SectionNavigation } from './SectionNavigation';
-import { preloadImages } from '../lib/preloadImages';
 
 interface OtherOverlayProps {
   isOpen: boolean;
@@ -87,8 +85,6 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
   const [view, setView] = useState<'directory' | 'detail'>('directory');
   const [selectedWork, setSelectedWork] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const footerRef = useRef<HTMLDivElement>(null);
-  const nextFooterRef = useRef<HTMLDivElement>(null);
   const [lightbox, setLightbox] = useState<{ images: string[], index: number } | null>(null);
 
   React.useEffect(() => {
@@ -112,7 +108,6 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
     <AnimatePresence>
       {isOpen && (
         <motion.div 
-          key={`${id}-other-container`}
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
           initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
@@ -146,7 +141,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
           <AnimatePresence mode="wait">
             {view === 'directory' ? (
               <motion.div 
-                key="other-directory"
+                key="directory"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -158,10 +153,6 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                     <div 
                       key={`${id}-work-directory-item-${work.id}-${index}`} 
                       onClick={() => handleWorkClick(index)}
-                      onMouseEnter={() => {
-                        const urls = work.gallery || work.series?.flatMap(s => [s.hero, ...s.gallery]) || [];
-                        preloadImages(urls);
-                      }}
                       className={`grid grid-cols-1 md:grid-cols-2 gap-24 items-center cursor-pointer group ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
                     >
                       <div className={`space-y-12 ${index % 2 === 1 ? 'md:order-2' : ''}`}>
@@ -195,7 +186,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
               </motion.div>
             ) : (
               <motion.div 
-                key={`other-detail-${selectedWork}`}
+                key={`detail-${selectedWork}`}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
@@ -278,7 +269,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                  {s.gallery.slice(0, 2).map((img, i) => (
                                    <motion.div 
-                                     key={`${id}-series-a-item-${idx}-${i}`}
+                                     key={`${id}-series-${idx}-row1-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -296,7 +287,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                                     {s.gallery.slice(2, 6).map((img, i) => (
                                       <motion.div 
-                                        key={`${id}-gallery-item-${idx}-${i + 2}`}
+                                        key={`${id}-series-${idx}-row2-${i}`}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
@@ -313,7 +304,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
                                     {s.gallery.slice(6, 9).map((img, i) => (
                                       <motion.div 
-                                        key={`${id}-gallery-item-${idx}-${i + 6}`}
+                                        key={`${id}-series-${idx}-row3-${i}`}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
@@ -333,7 +324,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                  {s.gallery.slice(0, 2).map((img, i) => (
                                    <motion.div 
-                                     key={`${id}-series-b-item-${idx}-${i}`}
+                                     key={`${id}-series-${idx}-row1-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -348,7 +339,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                                  {s.gallery.slice(2, 6).map((img, i) => (
                                    <motion.div 
-                                     key={`${id}-gallery-item-alt-${idx}-${i + 2}`}
+                                     key={`${id}-series-${idx}-row2-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -458,14 +449,33 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
             )}
           </AnimatePresence>
 
-          {/* Section Navigation */}
+          {/* Minimalist Navigation (Only show in directory view) */}
           {view === 'directory' && (
-            <SectionNavigation 
-              prevLabel="图案研究 // PATTERN"
-              nextLabel="联络方式 // CONTACT"
-              onPrev={onPrev}
-              onNext={onNext}
-            />
+            <div className="fixed bottom-0 left-0 right-0 z-[120] px-6 py-10 md:px-12 pointer-events-none">
+              <div className="max-w-7xl mx-auto flex justify-between items-end">
+                <button 
+                  onClick={onPrev}
+                  className="pointer-events-auto group flex flex-col items-start gap-2"
+                >
+                  <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">PREVIOUS_MODULE</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+                    <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">图案设计 // PATTERN</span>
+                  </div>
+                </button>
+
+                <button 
+                  onClick={onNext}
+                  className="pointer-events-auto group flex flex-col items-end gap-2"
+                >
+                  <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity text-right">NEXT_MODULE</span>
+                  <div className="flex items-center gap-3 text-right">
+                    <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">联系我 // CONTACT</span>
+                    <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+                  </div>
+                </button>
+              </div>
+            </div>
           )}
         </motion.div>
       )}

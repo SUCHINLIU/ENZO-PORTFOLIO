@@ -4,8 +4,6 @@ import { X, ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-reac
 import { RippleEffect } from './RippleEffect';
 import { RevealText, RevealWords } from './RevealText';
 import { SafeImage } from './SafeImage';
-import { SectionNavigation } from './SectionNavigation';
-import { preloadImage } from '../lib/preloadImages';
 
 interface PatternOverlayProps {
   isOpen: boolean;
@@ -32,8 +30,6 @@ export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverl
   const id = useId();
   const [selectedPattern, setSelectedPattern] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const footerRef = useRef<HTMLDivElement>(null);
-  const nextFooterRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -43,11 +39,6 @@ export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverl
 
   const handlePatternClick = (index: number) => {
     setSelectedPattern(index);
-    // Preload next and prev for smoother carousel
-    const nextIdx = (index + 1) % patterns.length;
-    const prevIdx = (index - 1 + patterns.length) % patterns.length;
-    preloadImage(patterns[nextIdx].image);
-    preloadImage(patterns[prevIdx].image);
   };
 
   const closeDetail = () => {
@@ -83,7 +74,6 @@ export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverl
     <AnimatePresence>
       {isOpen && (
         <motion.div 
-          key={`${id}-pattern-container`}
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg bg-white"
           initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
@@ -207,14 +197,33 @@ export function PatternOverlay({ isOpen, onClose, onPrev, onNext }: PatternOverl
             )}
           </AnimatePresence>
 
-          {/* Section Navigation */}
+          {/* Minimalist Navigation (Only show in directory view) */}
           {selectedPattern === null && (
-            <SectionNavigation 
-              prevLabel="商业风格设计 // COMMERCIAL"
-              nextLabel="其他创意作品 // OTHER"
-              onPrev={onPrev}
-              onNext={onNext}
-            />
+            <div className="fixed bottom-0 left-0 right-0 z-[120] px-6 py-10 md:px-12 pointer-events-none">
+              <div className="max-w-7xl mx-auto flex justify-between items-end">
+                <button 
+                  onClick={onPrev}
+                  className="pointer-events-auto group flex flex-col items-start gap-2"
+                >
+                  <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">PREVIOUS_MODULE</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+                    <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">商业风格设计 // COMMERCIAL</span>
+                  </div>
+                </button>
+
+                <button 
+                  onClick={onNext}
+                  className="pointer-events-auto group flex flex-col items-end gap-2"
+                >
+                  <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity text-right">NEXT_MODULE</span>
+                  <div className="flex items-center gap-3 text-right">
+                    <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">其他创意作品 // OTHERS</span>
+                    <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+                  </div>
+                </button>
+              </div>
+            </div>
           )}
         </motion.div>
       )}

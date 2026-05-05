@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SafeImage } from './SafeImage';
-import { preloadImage } from '../lib/preloadImages';
 
 interface LightboxProps {
   images: string[];
@@ -12,18 +11,7 @@ interface LightboxProps {
 }
 
 export function Lightbox({ images, startIndex, isOpen, onClose }: LightboxProps) {
-  const id = React.useId();
   const [currentIndex, setCurrentIndex] = React.useState(startIndex);
-
-  // Preload siblings whenever currentIndex changes
-  useEffect(() => {
-    if (images.length > 1) {
-      const nextIdx = (currentIndex + 1) % images.length;
-      const prevIdx = (currentIndex - 1 + images.length) % images.length;
-      preloadImage(images[nextIdx]);
-      preloadImage(images[prevIdx]);
-    }
-  }, [currentIndex, images]);
 
   useEffect(() => {
     if (isOpen) {
@@ -56,7 +44,7 @@ export function Lightbox({ images, startIndex, isOpen, onClose }: LightboxProps)
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          key={`${id}-lightbox-container`}
+          key="lightbox-container"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -82,7 +70,7 @@ export function Lightbox({ images, startIndex, isOpen, onClose }: LightboxProps)
           )}
 
           <motion.div
-            key={`${id}-content-${currentIndex}`}
+            key={currentIndex}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}

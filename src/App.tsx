@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { StaggeredMenu } from './components/StaggeredMenu';
 import { AboutOverlay } from './components/AboutOverlay';
@@ -9,18 +9,6 @@ import { ContactOverlay } from './components/ContactOverlay';
 import { RippleEffect } from './components/RippleEffect';
 import { CustomCursor } from './components/CustomCursor';
 import { RevealText, RevealWords, PerspectiveReveal } from './components/RevealText';
-import { SafeImage } from './components/SafeImage';
-import { useImagePreloader } from './hooks/useImagePreloader';
-import { 
-  COMMERCIAL_PROJECTS_HERO, 
-  COMMERCIAL_PROJECTS_GALLERY,
-  OTHER_WORKS_HERO,
-  OTHER_WORKS_GALLERY,
-  PATTERN_IMAGES
-} from './constants/images';
-
-const HERO_IMAGES = [...COMMERCIAL_PROJECTS_HERO, ...OTHER_WORKS_HERO];
-const GALLERY_IMAGES = [...COMMERCIAL_PROJECTS_GALLERY, ...OTHER_WORKS_GALLERY, ...PATTERN_IMAGES];
 
 const textVariants = {
   hidden: { opacity: 0, y: 40, transition: { duration: 0.48, ease: [0.22, 1, 0.36, 1] as any } },
@@ -50,12 +38,6 @@ export default function App() {
 
   const isAnyOverlayOpen = isAboutOpen || isCommercialOpen || isPatternOpen || isOtherOpen || isContactOpen;
 
-  // Stage 1: Preload high-priority hero images immediately (after 1s)
-  useImagePreloader(HERO_IMAGES, 1000);
-
-  // Stage 2: Preload all gallery and pattern images in background (after 4s)
-  useImagePreloader(GALLERY_IMAGES, 4000);
-
   return (
     <div className="min-h-screen w-full bg-white text-black overflow-hidden font-sans relative grainy-bg cursor-none">
       <CustomCursor />
@@ -71,15 +53,25 @@ export default function App() {
         transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
       >
         <div className="absolute inset-0 opacity-[0.03] grayscale contrast-125">
-          <SafeImage 
+          <img 
             src="https://picsum.photos/seed/tech/1920/1080?grayscale" 
             className="w-full h-full object-cover"
             alt=""
-            loading="eager"
-            referrerPolicy="no-referrer"
           />
         </div>
       </motion.div>
+
+      {/* Main UI Components */}
+      <StaggeredMenu 
+        isOpen={isMenuOpen} 
+        setIsOpen={setIsMenuOpen}
+        onFleetClick={() => {}}
+        onAboutClick={() => setIsAboutOpen(true)}
+        onCommercialClick={() => setIsCommercialOpen(true)}
+        onPatternClick={() => setIsPatternOpen(true)}
+        onOtherClick={() => setIsOtherOpen(true)}
+        onContactClick={() => setIsContactOpen(true)}
+      />
 
       {/* Main content */}
       <AnimatePresence>
@@ -129,20 +121,25 @@ export default function App() {
 
             {/* Explore button */}
             <motion.div
-              className="mt-16 pointer-events-auto"
+              className="mt-20 pointer-events-auto"
               variants={textVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               <button
                 onClick={() => setIsAboutOpen(true)}
-                className="group relative px-8 py-3 text-[14px] font-normal tracking-[0.4em] uppercase text-[#1a1a1a] transition-all duration-500 overflow-hidden bg-white/10 backdrop-blur-sm border border-black/5 rounded-full hover:bg-black hover:text-white"
+                className="group flex flex-col items-center gap-4 transition-all duration-700"
               >
-                <span className="relative z-10 transition-colors duration-500">点击探索 — EXPLORE</span>
-                <motion.div 
-                  className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.22, 1, 0.36, 1]"
-                  style={{ zIndex: 0 }}
-                />
+                <div className="relative w-px h-16 bg-black/10 overflow-hidden">
+                  <motion.div 
+                    className="absolute top-0 left-0 w-full h-full bg-black origin-top"
+                    initial={{ scaleY: 0 }}
+                    whileHover={{ scaleY: 1 }}
+                    transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
+                  />
+                </div>
+                <span className="font-mono text-[9px] tracking-[0.6em] text-black/40 group-hover:text-black group-hover:tracking-[0.8em] transition-all duration-700 uppercase">
+                  ENTER_EXPERIENCE
+                </span>
+                <span className="font-serif italic text-xs text-black/20 group-hover:text-black transition-colors duration-500">探索 — EXPLORE</span>
               </button>
             </motion.div>
           </motion.div>

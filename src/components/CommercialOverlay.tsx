@@ -5,8 +5,6 @@ import { RippleEffect } from './RippleEffect';
 import { RevealText, RevealWords } from './RevealText';
 import { Lightbox } from './Lightbox';
 import { SafeImage } from './SafeImage';
-import { SectionNavigation } from './SectionNavigation';
-import { preloadImages } from '../lib/preloadImages';
 
 interface CommercialOverlayProps {
   isOpen: boolean;
@@ -135,8 +133,6 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
   const [scrollIntent, setScrollIntent] = useState(0); // For handling the scroll threshold
   const containerRef = useRef<HTMLDivElement>(null);
   const detailRef = useRef<HTMLDivElement>(null);
-  const heroFooterRef = useRef<HTMLDivElement>(null);
-  const heroNextFooterRef = useRef<HTMLDivElement>(null);
   const [lightbox, setLightbox] = useState<{ images: string[], index: number } | null>(null);
   const ease: any = [0.28, 0.11, 0.32, 1];
 
@@ -201,7 +197,6 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
     <AnimatePresence>
       {isOpen && (
         <motion.div 
-          key={`${id}-commercial-container`}
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
           initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
@@ -236,7 +231,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
             {/* Hero View: Directory of Series */}
             {view === 'hero' && (
               <motion.div
-                key="commercial-hero"
+                key="hero"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -254,13 +249,12 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                     {projects.map((project, index) => (
                       <motion.div
-                        key={`${id}-dir-proj-${project.id}-${index}`}
+                        key={`${id}-directory-project-${project.id}-${index}`}
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 + index * 0.1, duration: 0.8, ease }}
                         whileHover={{ y: -10 }}
                         onClick={() => handleProjectSelect(index)}
-                        onMouseEnter={() => preloadImages(project.gallery)}
                         className="group cursor-pointer relative aspect-[3/4] overflow-hidden rounded-2xl bg-[#f5f5f7] shadow-sm hover:shadow-2xl transition-all duration-500"
                       >
                         <SafeImage 
@@ -285,19 +279,38 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                   </div>
                 </div>
 
-                {/* Section Navigation for Hero View */}
-                <SectionNavigation 
-                  prevLabel="返回首页 // HOME"
-                  nextLabel="图案研究 // PATTERN"
-                  onPrev={onPrev}
-                  onNext={onNext}
-                />
+                {/* Minimalist Navigation for Hero View */}
+                <div className="fixed bottom-0 left-0 right-0 z-[120] px-6 py-10 md:px-12 pointer-events-none">
+                  <div className="max-w-7xl mx-auto flex justify-between items-end">
+                    <button 
+                      onClick={onPrev}
+                      className="pointer-events-auto group flex flex-col items-start gap-2"
+                    >
+                      <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">PREVIOUS_MODULE</span>
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+                        <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">个人简介 // ABOUT</span>
+                      </div>
+                    </button>
+
+                    <button 
+                      onClick={onNext}
+                      className="pointer-events-auto group flex flex-col items-end gap-2"
+                    >
+                      <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity text-right">NEXT_MODULE</span>
+                      <div className="flex items-center gap-3 text-right">
+                        <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">图案设计 // PATTERN</span>
+                        <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+                      </div>
+                    </button>
+                  </div>
+                </div>
               </motion.div>
             )}
 
             {view === 'detail' && selectedProject !== null && (
               <motion.div
-                key={`commercial-detail-${selectedProject}`}
+                key={`detail-${selectedProject}`}
                 ref={detailRef}
                 className="fixed inset-0 z-[130] bg-white overflow-y-auto custom-scrollbar grainy-bg selection:bg-black selection:text-white"
                 initial={{ opacity: 0 }}
@@ -309,7 +322,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                 <div className="fixed right-8 top-1/2 -translate-y-1/2 z-[160] hidden xl:flex flex-col gap-12 items-end">
                   {projects.map((project, idx) => (
                     <button
-                      key={`${id}-side-nav-link-${project.id}-${idx}`}
+                      key={`${id}-side-nav-project-${project.id}-${idx}`}
                       onClick={() => jumpToProject(idx)}
                       className="group flex items-center gap-6 text-right transition-all duration-500"
                     >
@@ -323,7 +336,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                         </span>
                         {selectedProject === idx && (
                           <motion.div 
-                            layoutId={`${id}-active-dot`}
+                            layoutId="active-dot"
                             className="absolute -bottom-4 w-1 h-1 bg-black rounded-full" 
                           />
                         )}
@@ -456,7 +469,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                          </h4>
                          <div className="space-y-6 inline-flex flex-col items-start mx-auto">
                           {projects[selectedProject].details.map((detail, i) => (
-                            <div key={`${id}-proj-detail-bullet-${selectedProject}-${i}`} className="flex items-center gap-6">
+                            <div key={`${id}-project-${selectedProject}-detail-bullet-${i}`} className="flex items-center gap-6">
                               <div className="w-1 h-px bg-[#1a1a1a]/30" />
                               <span className="font-sans text-sm text-[#555555] font-light tracking-wide">{detail}</span>
                             </div>
@@ -474,7 +487,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
           <AnimatePresence>
             {isTransitioning && (
               <motion.div
-                key="commercial-global-wipe"
+                key="global-wipe"
                 initial={{ scaleY: 0 }}
                 animate={{ scaleY: 1 }}
                 exit={{ scaleY: 0, transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] } }}

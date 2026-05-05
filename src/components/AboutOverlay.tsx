@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRight, ArrowLeft } from 'lucide-react';
 import { RippleEffect } from './RippleEffect';
 import { RevealText, RevealWords, PerspectiveReveal } from './RevealText';
-import { SectionNavigation } from './SectionNavigation';
 
 import { SafeImage } from './SafeImage';
 
@@ -14,11 +13,8 @@ interface AboutOverlayProps {
 }
 
 export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
-  const id = React.useId();
   const ease: any = [0.28, 0.11, 0.32, 1];
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const footerRef = useRef<HTMLDivElement>(null);
-  const nextFooterRef = useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (isOpen) {
@@ -30,7 +26,6 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
     <AnimatePresence>
       {isOpen && (
         <motion.div 
-          key={`${id}-about-container`}
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
           initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
@@ -92,13 +87,32 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
             </div>
           </div>
 
-          {/* Section Navigation */}
-          <SectionNavigation 
-            prevLabel="首页 // HOME"
-            nextLabel="商业风格设计 // COMMERCIAL"
-            onPrev={onClose}
-            onNext={onNext}
-          />
+          {/* Minimalist Navigation */}
+          <div className="fixed bottom-0 left-0 right-0 z-[120] px-6 py-10 md:px-12 pointer-events-none">
+            <div className="max-w-7xl mx-auto flex justify-between items-end">
+              <button 
+                onClick={onClose}
+                className="pointer-events-auto group flex flex-col items-start gap-2"
+              >
+                <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">PREVIOUS_MODULE</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+                  <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">首页 // HOME</span>
+                </div>
+              </button>
+
+              <button 
+                onClick={onNext}
+                className="pointer-events-auto group flex flex-col items-end gap-2"
+              >
+                <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity text-right">NEXT_MODULE</span>
+                <div className="flex items-center gap-3 text-right">
+                  <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">商业风格设计 // COMMERCIAL</span>
+                  <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+                </div>
+              </button>
+            </div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

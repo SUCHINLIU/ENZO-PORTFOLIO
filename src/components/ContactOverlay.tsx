@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowLeft, Mail, MapPin, Phone, MessageSquare } from 'lucide-react';
 import { RippleEffect } from './RippleEffect';
 import { RevealText, RevealWords } from './RevealText';
-import { SectionNavigation } from './SectionNavigation';
 
 interface ContactOverlayProps {
   isOpen: boolean;
@@ -25,10 +24,8 @@ const WeChatIcon = ({ className, size = 18 }: { className?: string, size?: numbe
 );
 
 export function ContactOverlay({ isOpen, onClose, onPrev }: ContactOverlayProps) {
-  const id = React.useId();
   const ease = [0.28, 0.11, 0.32, 1];
   const containerRef = useRef<HTMLDivElement>(null);
-  const footerRef = useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (isOpen) {
@@ -40,7 +37,6 @@ export function ContactOverlay({ isOpen, onClose, onPrev }: ContactOverlayProps)
     <AnimatePresence>
       {isOpen && (
         <motion.div 
-          key={`${id}-contact-container`}
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
           initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
@@ -138,11 +134,21 @@ export function ContactOverlay({ isOpen, onClose, onPrev }: ContactOverlayProps)
 
           </div>
 
-          {/* Section Navigation */}
-          <SectionNavigation 
-            prevLabel="其他创意 // EXPLORATION"
-            onPrev={onPrev}
-          />
+          {/* Minimalist Navigation */}
+          <div className="fixed bottom-0 left-0 right-0 z-[120] px-6 py-10 md:px-12 pointer-events-none">
+            <div className="max-w-7xl mx-auto flex justify-between items-end">
+              <button 
+                onClick={onPrev}
+                className="pointer-events-auto group flex flex-col items-start gap-2"
+              >
+                <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">PREVIOUS_MODULE</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+                  <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">其他创意 // EXPLORATION</span>
+                </div>
+              </button>
+            </div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
