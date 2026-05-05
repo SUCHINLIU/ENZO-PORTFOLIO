@@ -6,6 +6,7 @@ import { RevealText, RevealWords } from './RevealText';
 import { Lightbox } from './Lightbox';
 import { FlipBook } from './FlipBook';
 import { SafeImage } from './SafeImage';
+import { SectionNavigation } from './SectionNavigation';
 import { preloadImages } from '../lib/preloadImages';
 
 interface OtherOverlayProps {
@@ -457,41 +458,14 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
             )}
           </AnimatePresence>
 
-          {/* Corner Liquid Glass Navigation (Only show in directory view) */}
+          {/* Section Navigation */}
           {view === 'directory' && (
-            <div className="fixed bottom-0 left-0 right-0 z-[120] pointer-events-none">
-              <div className="flex justify-between items-end p-4 md:p-6">
-                <div 
-                  ref={footerRef}
-                  className="pointer-events-auto bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl px-6 py-4 flex items-center shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] relative overflow-hidden group"
-                >
-                  <RippleEffect containerRef={footerRef} className="absolute inset-0" zIndex={0} />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-50 pointer-events-none" />
-                  <button 
-                    onClick={onPrev}
-                    className="flex items-center gap-3 text-[#1d1d1f] hover:text-[#555555] transition-colors relative z-10"
-                  >
-                    <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                    <span className="font-sans text-lg font-medium tracking-tight">图案设计</span>
-                  </button>
-                </div>
-
-                <div 
-                  ref={nextFooterRef}
-                  className="pointer-events-auto bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl px-6 py-4 flex items-center shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] relative overflow-hidden group"
-                >
-                  <RippleEffect containerRef={nextFooterRef} className="absolute inset-0" zIndex={0} />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-50 pointer-events-none" />
-                  <button 
-                    onClick={onNext}
-                    className="flex items-center gap-3 text-[#1d1d1f] hover:text-[#555555] transition-colors relative z-10"
-                  >
-                    <span className="font-sans text-lg font-medium tracking-tight">联系我</span>
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </div>
-            </div>
+            <SectionNavigation 
+              prevLabel="图案研究 // PATTERN"
+              nextLabel="联络方式 // CONTACT"
+              onPrev={onPrev}
+              onNext={onNext}
+            />
           )}
         </motion.div>
       )}

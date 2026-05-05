@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRight, ArrowLeft } from 'lucide-react';
 import { RippleEffect } from './RippleEffect';
 import { RevealText, RevealWords, PerspectiveReveal } from './RevealText';
+import { SectionNavigation } from './SectionNavigation';
 
 import { SafeImage } from './SafeImage';
 
@@ -91,40 +92,13 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
             </div>
           </div>
 
-          {/* Corner Liquid Glass Navigation */}
-          <div className="fixed bottom-0 left-0 right-0 z-[120] pointer-events-none">
-            <div className="flex justify-between items-end p-4 md:p-6">
-              <div 
-                ref={footerRef}
-                className="pointer-events-auto bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl px-6 py-4 flex items-center shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] relative overflow-hidden group"
-              >
-                <RippleEffect containerRef={footerRef} className="absolute inset-0" zIndex={0} />
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-50 pointer-events-none" />
-                <button 
-                  onClick={onClose}
-                  className="flex items-center gap-3 text-[#1d1d1f] hover:text-[#555555] transition-colors relative z-10"
-                >
-                  <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                  <span className="font-sans text-lg font-medium tracking-tight">首页</span>
-                </button>
-              </div>
-
-              <div 
-                ref={nextFooterRef}
-                className="pointer-events-auto bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl px-6 py-4 flex items-center shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] relative overflow-hidden group"
-              >
-                <RippleEffect containerRef={nextFooterRef} className="absolute inset-0" zIndex={0} />
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-50 pointer-events-none" />
-                <button 
-                  onClick={onNext}
-                  className="flex items-center gap-3 text-[#1d1d1f] hover:text-[#555555] transition-colors relative z-10"
-                >
-                  <span className="font-sans text-lg font-medium tracking-tight">商业风格设计</span>
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            </div>
-          </div>
+          {/* Section Navigation */}
+          <SectionNavigation 
+            prevLabel="首页 // HOME"
+            nextLabel="商业风格设计 // COMMERCIAL"
+            onPrev={onClose}
+            onNext={onNext}
+          />
         </motion.div>
       )}
     </AnimatePresence>
