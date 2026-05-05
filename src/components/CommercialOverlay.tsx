@@ -201,10 +201,10 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
         <motion.div 
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
-          initial={{ opacity: 0, y: '5%', scale: 0.98, filter: 'blur(20px)' }}
-          animate={{ opacity: 1, y: '0%', scale: 1, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: '-5%', scale: 0.98, filter: 'blur(20px)' }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
+          animate={{ opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0% round 0px)' }}
+          exit={{ opacity: 0, scale: 0.95, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
+          transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
         >
           {/* Header */}
           <div className="sticky top-0 z-[120] bg-white/80 backdrop-blur-md flex justify-between items-center px-6 py-6 md:px-12 border-b-[0.5px] border-black/10">
@@ -233,7 +233,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
             {/* Hero View: Directory of Series */}
             {view === 'hero' && (
               <motion.div
-                key="hero"
+                key="commercial-hero"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -251,7 +251,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                     {projects.map((project, index) => (
                       <motion.div
-                        key={`${id}-directory-project-${project.id}`}
+                        key={`${id}-dir-proj-${project.id}-${index}`}
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 + index * 0.1, duration: 0.8, ease }}
@@ -332,7 +332,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                 <div className="fixed right-8 top-1/2 -translate-y-1/2 z-[160] hidden xl:flex flex-col gap-12 items-end">
                   {projects.map((project, idx) => (
                     <button
-                      key={`${id}-side-nav-project-${project.id}`}
+                      key={`${id}-side-nav-link-${project.id}-${idx}`}
                       onClick={() => jumpToProject(idx)}
                       className="group flex items-center gap-6 text-right transition-all duration-500"
                     >
@@ -479,7 +479,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                          </h4>
                          <div className="space-y-6 inline-flex flex-col items-start mx-auto">
                           {projects[selectedProject].details.map((detail, i) => (
-                            <div key={`${id}-project-${selectedProject}-detail-bullet-${i}`} className="flex items-center gap-6">
+                            <div key={`${id}-proj-detail-bullet-${selectedProject}-${i}`} className="flex items-center gap-6">
                               <div className="w-1 h-px bg-[#1a1a1a]/30" />
                               <span className="font-sans text-sm text-[#555555] font-light tracking-wide">{detail}</span>
                             </div>
@@ -497,7 +497,7 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
           <AnimatePresence>
             {isTransitioning && (
               <motion.div
-                key="global-wipe"
+                key="commercial-global-wipe"
                 initial={{ scaleY: 0 }}
                 animate={{ scaleY: 1 }}
                 exit={{ scaleY: 0, transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] } }}

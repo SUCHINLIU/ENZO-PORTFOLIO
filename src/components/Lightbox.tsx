@@ -11,6 +11,7 @@ interface LightboxProps {
 }
 
 export function Lightbox({ images, startIndex, isOpen, onClose }: LightboxProps) {
+  const id = React.useId();
   const [currentIndex, setCurrentIndex] = React.useState(startIndex);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export function Lightbox({ images, startIndex, isOpen, onClose }: LightboxProps)
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          key="lightbox-container"
+          key={`${id}-lightbox-container`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -70,7 +71,7 @@ export function Lightbox({ images, startIndex, isOpen, onClose }: LightboxProps)
           )}
 
           <motion.div
-            key={currentIndex}
+            key={`${id}-content-${currentIndex}`}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}

@@ -30,10 +30,10 @@ export function AboutOverlay({ isOpen, onClose, onNext }: AboutOverlayProps) {
         <motion.div 
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
-          initial={{ opacity: 0, y: '5%', scale: 0.98, filter: 'blur(20px)' }}
-          animate={{ opacity: 1, y: '0%', scale: 1, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: '-5%', scale: 0.98, filter: 'blur(20px)' }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] as any }}
+          initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
+          animate={{ opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0% round 0px)' }}
+          exit={{ opacity: 0, scale: 0.95, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
+          transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
         >
           {/* Header */}
           <div className="sticky top-0 z-[120] bg-white/80 backdrop-blur-md flex justify-between items-center px-6 py-6 md:px-12 border-b-[0.5px] border-black/10">

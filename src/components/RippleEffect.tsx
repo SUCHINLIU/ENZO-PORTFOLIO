@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useId } from 'react';
 
-const RIPPLE_COUNT = 80;
-const DISTANCE_THRESHOLD = 25;
+const RIPPLE_COUNT = 100;
+const DISTANCE_THRESHOLD = 20;
 
 interface Ripple {
   x: number;
   y: number;
   age: number;
   active: boolean;
+  scale: number;
 }
 
 interface RippleEffectProps {
@@ -18,7 +19,7 @@ interface RippleEffectProps {
 
 export function RippleEffect({ containerRef, className = "fixed inset-0", zIndex = 30 }: RippleEffectProps) {
   const ripplesRef = useRef<Ripple[]>(
-    Array.from({ length: RIPPLE_COUNT }, () => ({ x: 0, y: 0, age: 0, active: false }))
+    Array.from({ length: RIPPLE_COUNT }, () => ({ x: 0, y: 0, age: 0, active: false, scale: 1 }))
   );
   const rippleElementsRef = useRef<(HTMLDivElement | null)[]>([]);
   const lastPosRef = useRef({ x: -1000, y: -1000 });
@@ -34,17 +35,12 @@ export function RippleEffect({ containerRef, className = "fixed inset-0", zIndex
 
       if (containerRef?.current) {
         const rect = containerRef.current.getBoundingClientRect();
-        // Check if mouse is within container bounds
         if (
           x < rect.left || 
           x > rect.right || 
           y < rect.top || 
           y > rect.bottom
         ) return;
-        
-        // Use relative coordinates if needed, but the current logic uses absolute positioning in a fixed/absolute container
-        // Actually, if the container is fixed inset-0, absolute positioning with clientX/Y works.
-        // If the container is a small pill, we should use relative coordinates or keep using clientX/Y if the ripple container is also fixed.
       }
 
       const dx = x - lastPosRef.current.x;
@@ -60,6 +56,7 @@ export function RippleEffect({ containerRef, className = "fixed inset-0", zIndex
         ripple.y = y;
         ripple.age = 0;
         ripple.active = true;
+        ripple.scale = 0.5 + (distance / 200); // Scale based on speed
         
         currentIndexRef.current = (index + 1) % RIPPLE_COUNT;
       }
@@ -78,14 +75,14 @@ export function RippleEffect({ containerRef, className = "fixed inset-0", zIndex
         const el = elements[i];
         
         if (ripple.active && el) {
-          ripple.age += 0.012;
+          ripple.age += 0.01; // Slightly slower decay
           
           if (ripple.age >= 1) {
             ripple.active = false;
             el.style.opacity = '0';
           } else {
-            const size = 20 + ripple.age * 280;
-            const opacity = 1 - Math.pow(ripple.age, 1.2);
+            const size = (20 + ripple.age * 300) * ripple.scale;
+            const opacity = (1 - ripple.age) * 0.8;
             
             el.style.width = `${size}px`;
             el.style.height = `${size}px`;
@@ -101,6 +98,7 @@ export function RippleEffect({ containerRef, className = "fixed inset-0", zIndex
             el.style.left = `${displayX - size / 2}px`;
             el.style.top = `${displayY - size / 2}px`;
             el.style.opacity = opacity.toString();
+            el.style.transform = `scale(${1 + ripple.age * 0.5})`;
           }
         }
       }
@@ -120,19 +118,20 @@ export function RippleEffect({ containerRef, className = "fixed inset-0", zIndex
     <div className={`${className} pointer-events-none overflow-hidden`} style={{ zIndex }}>
       <svg className="hidden">
         <filter id="liquid-trail">
-          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="30" xChannelSelector="R" yChannelSelector="G" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="50" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </svg>
       {Array.from({ length: RIPPLE_COUNT }).map((_, i) => (
         <div
           key={`${id}-ripple-dot-${i}`}
           ref={(el) => { rippleElementsRef.current[i] = el; }}
-          className="absolute rounded-full opacity-0 pointer-events-none"
+          className="absolute rounded-full opacity-0 pointer-events-none mix-blend-soft-light"
           style={{
-            backdropFilter: 'url(#liquid-trail) blur(1px)',
-            boxShadow: 'inset 0 0 30px rgba(0, 113, 227, 0.05), 0 0 15px rgba(0, 113, 227, 0.03)',
-            border: '1px solid rgba(0, 113, 227, 0.05)',
+            backdropFilter: 'url(#liquid-trail) blur(10px)',
+            boxShadow: 'inset 0 0 50px rgba(255, 255, 255, 0.15)',
+            border: '0.5px solid rgba(255, 255, 255, 0.2)',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)',
             willChange: 'transform, opacity, width, height, left, top',
           }}
         />

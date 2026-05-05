@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { StaggeredMenu } from './components/StaggeredMenu';
 import { AboutOverlay } from './components/AboutOverlay';
@@ -9,6 +9,16 @@ import { ContactOverlay } from './components/ContactOverlay';
 import { RippleEffect } from './components/RippleEffect';
 import { CustomCursor } from './components/CustomCursor';
 import { RevealText, RevealWords, PerspectiveReveal } from './components/RevealText';
+import { SafeImage } from './components/SafeImage';
+import { useImagePreloader } from './hooks/useImagePreloader';
+
+// Critical assets to preload in background
+const CRITICAL_IMAGES = [
+  'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/DB%E4%B8%BB%E5%9B%BE.png',
+  'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/RX%E4%B8%BB%E5%9B%BE.png',
+  'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/CF%E4%B8%BB%E5%9B%BE.png',
+  'https://raw.githubusercontent.com/SUCHINLIU/enzo-portfolio-mini/main/TD%E4%B8%BB%E5%9B%BE.png',
+];
 
 const textVariants = {
   hidden: { opacity: 0, y: 40, transition: { duration: 0.48, ease: [0.22, 1, 0.36, 1] as any } },
@@ -38,6 +48,9 @@ export default function App() {
 
   const isAnyOverlayOpen = isAboutOpen || isCommercialOpen || isPatternOpen || isOtherOpen || isContactOpen;
 
+  // Preload project images in background
+  useImagePreloader(CRITICAL_IMAGES);
+
   return (
     <div className="min-h-screen w-full bg-white text-black overflow-hidden font-sans relative grainy-bg cursor-none">
       <CustomCursor />
@@ -45,14 +58,20 @@ export default function App() {
       {/* Background Layer */}
       <motion.div 
         className="fixed inset-0 z-0"
-        animate={{ filter: isAnyOverlayOpen ? 'blur(80px) grayscale(1)' : 'blur(0px) grayscale(0)' }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ 
+          filter: isAnyOverlayOpen ? 'blur(100px) grayscale(0.5)' : 'blur(0px) grayscale(0)',
+          scale: isAnyOverlayOpen ? 1.2 : 1,
+          opacity: isAnyOverlayOpen ? 0.3 : 1
+        }}
+        transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
       >
         <div className="absolute inset-0 opacity-[0.03] grayscale contrast-125">
-          <img 
+          <SafeImage 
             src="https://picsum.photos/seed/tech/1920/1080?grayscale" 
             className="w-full h-full object-cover"
             alt=""
+            loading="eager"
+            referrerPolicy="no-referrer"
           />
         </div>
       </motion.div>
@@ -107,13 +126,18 @@ export default function App() {
             <motion.div
               className="mt-16 pointer-events-auto"
               variants={textVariants}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <button
                 onClick={() => setIsAboutOpen(true)}
-                className="group relative px-2 py-2 text-[14px] font-normal tracking-[0.3em] uppercase text-[#1a1a1a] transition-all duration-500 overflow-hidden"
+                className="group relative px-8 py-3 text-[14px] font-normal tracking-[0.4em] uppercase text-[#1a1a1a] transition-all duration-500 overflow-hidden bg-white/10 backdrop-blur-sm border border-black/5 rounded-full hover:bg-black hover:text-white"
               >
-                点击探索 — EXPLORE
-                <div className="absolute bottom-0 left-0 w-full h-px bg-[#1a1a1a] transform origin-left scale-x-30 group-hover:scale-x-100 transition-transform duration-700" />
+                <span className="relative z-10 transition-colors duration-500">点击探索 — EXPLORE</span>
+                <motion.div 
+                  className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.22, 1, 0.36, 1]"
+                  style={{ zIndex: 0 }}
+                />
               </button>
             </motion.div>
           </motion.div>

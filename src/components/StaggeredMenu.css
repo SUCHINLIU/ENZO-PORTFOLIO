@@ -6,6 +6,11 @@
   position: relative;
   counter-increment: menu-counter;
   transform-origin: left bottom;
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.menu-item:hover {
+  transform: translateX(10px) scale(1.05);
 }
 
 .menu-item::before {
@@ -13,10 +18,16 @@
   position: absolute;
   left: -2rem;
   top: 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-family: var(--font-sans);
-  color: #78716c;
+  color: rgba(0,0,0,0.2);
   font-weight: 500;
+  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.menu-item:hover::before {
+  color: #000;
+  transform: scale(1.2);
 }
 
 .cubic-bezier-menu {

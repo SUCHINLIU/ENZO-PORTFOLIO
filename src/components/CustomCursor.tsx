@@ -7,9 +7,14 @@ export function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
 
-  const springConfig = { damping: 25, stiffness: 200 };
+  const springConfig = { damping: 25, stiffness: 350 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
+
+  // Trailing spring for the outer ring
+  const trailConfig = { damping: 30, stiffness: 150 };
+  const trailX = useSpring(cursorX, trailConfig);
+  const trailY = useSpring(cursorY, trailConfig);
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
@@ -87,29 +92,38 @@ export function CustomCursor() {
   }, [cursorX, cursorY]);
 
   return (
-    <motion.div
-      className="fixed top-0 left-0 w-10 h-10 pointer-events-none z-[9999] hidden md:block"
-      style={{
-        translateX: cursorXSpring,
-        translateY: cursorYSpring,
-        x: '-50%',
-        y: '-50%',
-      }}
-    >
-      {/* Outer thin ring */}
-      <motion.div 
-        className="absolute inset-0 rounded-full border border-black"
+    <div className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block">
+      {/* Outer trailing ring */}
+      <motion.div
+        className="w-10 h-10 border border-black/10 rounded-full"
+        style={{
+          translateX: trailX,
+          translateY: trailY,
+          x: '-50%',
+          y: '-50%',
+        }}
         animate={{ 
-          scale: isHovering ? 1.5 : 1,
-          opacity: isHovering ? 0.3 : 0.1
+          scale: isHovering ? 1.4 : 1,
+          borderColor: isHovering ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)'
         }}
       />
       
-      {/* Center dot */}
-      <motion.div 
-        className="absolute inset-0 m-auto w-1 h-1 bg-black rounded-full"
-        animate={{ scale: isHovering ? 2 : 1 }}
-      />
-    </motion.div>
+      {/* Precision inner dot/ring */}
+      <motion.div
+        className="absolute top-0 left-0 w-2 h-2"
+        style={{
+          translateX: cursorXSpring,
+          translateY: cursorYSpring,
+          x: '-50%',
+          y: '-50%',
+        }}
+      >
+        <motion.div 
+          className="w-full h-full bg-black rounded-full"
+          animate={{ scale: isHovering ? 0.5 : 1 }}
+          transition={{ type: 'spring', damping: 20, stiffness: 400 }}
+        />
+      </motion.div>
+    </div>
   );
 }

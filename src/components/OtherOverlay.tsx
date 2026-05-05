@@ -112,10 +112,10 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
         <motion.div 
           ref={containerRef}
           className="fixed inset-0 z-[110] overflow-y-auto custom-scrollbar grainy-bg"
-          initial={{ opacity: 0, y: '5%', scale: 0.98, filter: 'blur(20px)' }}
-          animate={{ opacity: 1, y: '0%', scale: 1, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: '-5%', scale: 0.98, filter: 'blur(20px)' }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] as any }}
+          initial={{ opacity: 0, scale: 1.05, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
+          animate={{ opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0% round 0px)' }}
+          exit={{ opacity: 0, scale: 0.95, clipPath: 'inset(10% 10% 10% 10% round 40px)' }}
+          transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
         >
           {/* Header */}
           <div className="sticky top-0 z-[120] bg-white/80 backdrop-blur-md flex justify-between items-center px-6 py-6 md:px-12 border-b-[0.5px] border-black/10">
@@ -143,7 +143,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
           <AnimatePresence mode="wait">
             {view === 'directory' ? (
               <motion.div 
-                key="directory"
+                key="other-directory"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -153,7 +153,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                 <div className="space-y-32">
                   {otherWorks.map((work, index) => (
                     <div 
-                      key={`${id}-work-directory-item-${work.id}`} 
+                      key={`${id}-work-directory-item-${work.id}-${index}`} 
                       onClick={() => handleWorkClick(index)}
                       className={`grid grid-cols-1 md:grid-cols-2 gap-24 items-center cursor-pointer group ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
                     >
@@ -271,7 +271,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                  {s.gallery.slice(0, 2).map((img, i) => (
                                    <motion.div 
-                                     key={`${id}-series-${idx}-row1-${i}`}
+                                     key={`${id}-series-a-item-${idx}-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -289,7 +289,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                                     {s.gallery.slice(2, 6).map((img, i) => (
                                       <motion.div 
-                                        key={`${id}-series-${idx}-row2-${i}`}
+                                        key={`${id}-gallery-item-${idx}-${i + 2}`}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
@@ -306,7 +306,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
                                     {s.gallery.slice(6, 9).map((img, i) => (
                                       <motion.div 
-                                        key={`${id}-series-${idx}-row3-${i}`}
+                                        key={`${id}-gallery-item-${idx}-${i + 6}`}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
@@ -326,7 +326,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                  {s.gallery.slice(0, 2).map((img, i) => (
                                    <motion.div 
-                                     key={`${id}-series-${idx}-row1-${i}`}
+                                     key={`${id}-series-b-item-${idx}-${i}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
@@ -341,7 +341,7 @@ export function OtherOverlay({ isOpen, onClose, onPrev, onNext }: OtherOverlayPr
                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                                  {s.gallery.slice(2, 6).map((img, i) => (
                                    <motion.div 
-                                     key={`${id}-series-${idx}-row2-${i}`}
+                                     key={`${id}-gallery-item-alt-${idx}-${i + 2}`}
                                      initial={{ opacity: 0, y: 30 }}
                                      whileInView={{ opacity: 1, y: 0 }}
                                      viewport={{ once: true }}
