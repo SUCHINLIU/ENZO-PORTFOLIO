@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ArrowLeft, Mail, MapPin, Phone, MessageSquare } from 'lucide-react';
-import { RippleEffect } from './RippleEffect';
-import { RevealText, RevealWords } from './RevealText';
+import { ArrowLeft, Mail, Phone, MessageSquare } from 'lucide-react';
+import { RevealWords } from './RevealText';
 
 interface ContactOverlayProps {
   isOpen: boolean;
@@ -134,21 +133,6 @@ export function ContactOverlay({ isOpen, onClose, onPrev }: ContactOverlayProps)
 
           </div>
 
-          {/* Minimalist Navigation */}
-          <div className="fixed bottom-0 left-0 right-0 z-[120] px-6 py-10 md:px-12 pointer-events-none">
-            <div className="max-w-7xl mx-auto flex justify-between items-end">
-              <button 
-                onClick={onPrev}
-                className="pointer-events-auto group flex flex-col items-start gap-2"
-              >
-                <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">PREVIOUS_MODULE</span>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
-                  <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">其他创意 // EXPLORATION</span>
-                </div>
-              </button>
-            </div>
-          </div>
         </motion.div>
       )}
     </AnimatePresence>

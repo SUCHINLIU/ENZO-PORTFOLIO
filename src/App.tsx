@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { StaggeredMenu } from './components/StaggeredMenu';
 import { AboutOverlay } from './components/AboutOverlay';
 import { CommercialOverlay } from './components/CommercialOverlay';
 import { PatternOverlay } from './components/PatternOverlay';
@@ -8,7 +7,7 @@ import { OtherOverlay } from './components/OtherOverlay';
 import { ContactOverlay } from './components/ContactOverlay';
 import { RippleEffect } from './components/RippleEffect';
 import { CustomCursor } from './components/CustomCursor';
-import { RevealText, RevealWords, PerspectiveReveal } from './components/RevealText';
+import { RevealWords, PerspectiveReveal } from './components/RevealText';
 
 const textVariants = {
   hidden: { opacity: 0, y: 40, transition: { duration: 0.48, ease: [0.22, 1, 0.36, 1] as any } },
@@ -21,22 +20,26 @@ const containerVariants = {
 };
 
 export default function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAboutOpen, setIsAboutOpen] = useState(false);
-  const [isCommercialOpen, setIsCommercialOpen] = useState(false);
-  const [isPatternOpen, setIsPatternOpen] = useState(false);
-  const [isOtherOpen, setIsOtherOpen] = useState(false);
-  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [activeModule, setActiveModule] = useState<number>(0); // 0: Home, 1: About, 2: Commercial, 3: Pattern, 4: Other, 5: Contact
 
-  const closeAllOverlays = () => {
-    setIsAboutOpen(false);
-    setIsCommercialOpen(false);
-    setIsPatternOpen(false);
-    setIsOtherOpen(false);
-    setIsContactOpen(false);
+  const modules = [
+    { id: 'home', name: '首页', en: 'HOME' },
+    { id: 'about', name: '个人简介', en: 'ABOUT' },
+    { id: 'commercial', name: '商业风格设计', en: 'COMMERCIAL' },
+    { id: 'pattern', name: '图案设计', en: 'PATTERN' },
+    { id: 'other', name: '其他作品', en: 'OTHERS' },
+    { id: 'contact', name: '联系我', en: 'CONTACT' }
+  ];
+
+  const handleNext = () => {
+    setActiveModule((prev) => (prev + 1) % modules.length);
   };
 
-  const isAnyOverlayOpen = isAboutOpen || isCommercialOpen || isPatternOpen || isOtherOpen || isContactOpen;
+  const handlePrev = () => {
+    setActiveModule((prev) => (prev - 1 + modules.length) % modules.length);
+  };
+
+  const isAnyOverlayOpen = activeModule !== 0;
 
   return (
     <div className="min-h-screen w-full bg-white text-black overflow-hidden font-sans relative grainy-bg cursor-none">
@@ -46,9 +49,9 @@ export default function App() {
       <motion.div 
         className="fixed inset-0 z-0"
         animate={{ 
-          filter: isAnyOverlayOpen ? 'blur(100px) grayscale(0.5)' : 'blur(0px) grayscale(0)',
-          scale: isAnyOverlayOpen ? 1.2 : 1,
-          opacity: isAnyOverlayOpen ? 0.3 : 1
+          filter: isAnyOverlayOpen ? 'blur(100px) grayscale(0.2)' : 'blur(0px) grayscale(0)',
+          scale: isAnyOverlayOpen ? 1.1 : 1,
+          opacity: isAnyOverlayOpen ? 0.4 : 1
         }}
         transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
       >
@@ -60,18 +63,6 @@ export default function App() {
           />
         </div>
       </motion.div>
-
-      {/* Main UI Components */}
-      <StaggeredMenu 
-        isOpen={isMenuOpen} 
-        setIsOpen={setIsMenuOpen}
-        onFleetClick={() => {}}
-        onAboutClick={() => setIsAboutOpen(true)}
-        onCommercialClick={() => setIsCommercialOpen(true)}
-        onPatternClick={() => setIsPatternOpen(true)}
-        onOtherClick={() => setIsOtherOpen(true)}
-        onContactClick={() => setIsContactOpen(true)}
-      />
 
       {/* Main content */}
       <AnimatePresence>
@@ -125,7 +116,7 @@ export default function App() {
               variants={textVariants}
             >
               <button
-                onClick={() => setIsAboutOpen(true)}
+                onClick={() => setActiveModule(1)}
                 className="group flex flex-col items-center gap-4 transition-all duration-700"
               >
                 <div className="relative w-px h-16 bg-black/10 overflow-hidden">
@@ -146,61 +137,69 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      {/* Global Minimalist Navigation - Always Present */}
+      <div className="fixed bottom-0 left-0 right-0 z-[160] px-6 py-10 md:px-12 pointer-events-none">
+        <div className="max-w-7xl mx-auto flex justify-between items-end">
+          {/* Prevent showing Prev on Home if desired, but here we loop or show Home */}
+          <button 
+            onClick={handlePrev}
+            className={`pointer-events-auto group flex flex-col items-start gap-2 transition-all duration-700 ${activeModule === 0 ? 'opacity-0 -translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}
+          >
+            <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">PREVIOUS_MODULE</span>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+              <span className="font-serif italic text-base md:text-lg text-black/60 group-hover:text-black transition-colors whitespace-nowrap">
+                {activeModule > 0 ? modules[activeModule - 1].name : ''} // {activeModule > 0 ? modules[activeModule - 1].en : ''}
+              </span>
+            </div>
+          </button>
+
+          <button 
+            onClick={handleNext}
+            className={`pointer-events-auto group flex flex-col items-end gap-2 transition-all duration-700 ${activeModule === modules.length - 1 ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}
+          >
+            <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity text-right">NEXT_MODULE</span>
+            <div className="flex items-center gap-3 text-right">
+              <span className="font-serif italic text-base md:text-lg text-black/60 group-hover:text-black transition-colors whitespace-nowrap">
+                {activeModule < modules.length - 1 ? modules[activeModule + 1].name : ''} // {activeModule < modules.length - 1 ? modules[activeModule + 1].en : ''}
+              </span>
+              <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
+            </div>
+          </button>
+        </div>
+      </div>
+
       {/* Ripple trail effect layer - only on home page */}
       {!isAnyOverlayOpen && <RippleEffect />}
 
       {/* Overlays */}
       <AboutOverlay 
-        isOpen={isAboutOpen} 
-        onClose={() => setIsAboutOpen(false)} 
-        onNext={() => {
-          setIsAboutOpen(false);
-          setIsCommercialOpen(true);
-        }}
+        isOpen={activeModule === 1} 
+        onClose={() => setActiveModule(0)} 
+        onNext={handleNext}
       />
       <CommercialOverlay 
-        isOpen={isCommercialOpen} 
-        onClose={() => setIsCommercialOpen(false)} 
-        onPrev={() => {
-          setIsCommercialOpen(false);
-          setIsAboutOpen(true);
-        }}
-        onNext={() => {
-          setIsCommercialOpen(false);
-          setIsPatternOpen(true);
-        }}
+        isOpen={activeModule === 2} 
+        onClose={() => setActiveModule(0)} 
+        onPrev={handlePrev}
+        onNext={handleNext}
       />
       <PatternOverlay 
-        isOpen={isPatternOpen} 
-        onClose={() => setIsPatternOpen(false)}
-        onPrev={() => {
-          setIsPatternOpen(false);
-          setIsCommercialOpen(true);
-        }}
-        onNext={() => {
-          setIsPatternOpen(false);
-          setIsOtherOpen(true);
-        }}
+        isOpen={activeModule === 3} 
+        onClose={() => setActiveModule(0)}
+        onPrev={handlePrev}
+        onNext={handleNext}
       />
       <OtherOverlay 
-        isOpen={isOtherOpen} 
-        onClose={() => setIsOtherOpen(false)}
-        onPrev={() => {
-          setIsOtherOpen(false);
-          setIsPatternOpen(true);
-        }}
-        onNext={() => {
-          setIsOtherOpen(false);
-          setIsContactOpen(true);
-        }}
+        isOpen={activeModule === 4} 
+        onClose={() => setActiveModule(0)}
+        onPrev={handlePrev}
+        onNext={handleNext}
       />
       <ContactOverlay 
-        isOpen={isContactOpen} 
-        onClose={() => setIsContactOpen(false)}
-        onPrev={() => {
-          setIsContactOpen(false);
-          setIsOtherOpen(true);
-        }}
+        isOpen={activeModule === 5} 
+        onClose={() => setActiveModule(0)}
+        onPrev={handlePrev}
       />
     </div>
   );

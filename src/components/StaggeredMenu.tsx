@@ -26,20 +26,15 @@ export function StaggeredMenu({ isOpen, setIsOpen, onFleetClick, onAboutClick, o
   const id = useId();
   const menuRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const preLayerRef1 = useRef<HTMLDivElement>(null);
-  const preLayerRef2 = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const toggleTextRef = useRef<HTMLDivElement>(null);
-  const toggleIconRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     if (isOpen) {
       // Open animation
-      gsap.to([preLayerRef1.current, preLayerRef2.current, panelRef.current], {
+      gsap.to(panelRef.current, {
         x: '0%',
         duration: 1,
         ease: 'power4.inOut',
-        stagger: 0.1,
       });
 
       const validItems = itemsRef.current.filter(Boolean);
@@ -56,19 +51,11 @@ export function StaggeredMenu({ isOpen, setIsOpen, onFleetClick, onAboutClick, o
         }
       );
 
-      gsap.to(toggleTextRef.current, { y: '-50%', duration: 0.5, ease: 'power3.inOut' });
-      gsap.to(toggleIconRef.current, { rotate: 225, duration: 0.5, ease: 'power3.inOut' });
-    } else {
-      // Close animation
-      gsap.to([panelRef.current, preLayerRef2.current, preLayerRef1.current], {
+      gsap.to(panelRef.current, {
         x: '100%',
         duration: 0.8,
         ease: 'power3.inOut',
-        stagger: 0.05,
       });
-
-      gsap.to(toggleTextRef.current, { y: '0%', duration: 0.5, ease: 'power3.inOut' });
-      gsap.to(toggleIconRef.current, { rotate: 0, duration: 0.5, ease: 'power3.inOut' });
     }
   }, [isOpen]);
 

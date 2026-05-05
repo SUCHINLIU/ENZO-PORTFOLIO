@@ -1,7 +1,6 @@
 import React, { useState, useRef, useId } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ArrowRight, ArrowLeft } from 'lucide-react';
-import { RippleEffect } from './RippleEffect';
+import { ArrowLeft } from 'lucide-react';
 import { RevealText, RevealWords } from './RevealText';
 import { Lightbox } from './Lightbox';
 import { SafeImage } from './SafeImage';
@@ -279,32 +278,6 @@ export function CommercialOverlay({ isOpen, onClose, onPrev, onNext }: Commercia
                   </div>
                 </div>
 
-                {/* Minimalist Navigation for Hero View */}
-                <div className="fixed bottom-0 left-0 right-0 z-[120] px-6 py-10 md:px-12 pointer-events-none">
-                  <div className="max-w-7xl mx-auto flex justify-between items-end">
-                    <button 
-                      onClick={onPrev}
-                      className="pointer-events-auto group flex flex-col items-start gap-2"
-                    >
-                      <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity">PREVIOUS_MODULE</span>
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
-                        <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">个人简介 // ABOUT</span>
-                      </div>
-                    </button>
-
-                    <button 
-                      onClick={onNext}
-                      className="pointer-events-auto group flex flex-col items-end gap-2"
-                    >
-                      <span className="mono-label !opacity-30 group-hover:!opacity-100 transition-opacity text-right">NEXT_MODULE</span>
-                      <div className="flex items-center gap-3 text-right">
-                        <span className="font-serif italic text-lg text-black/60 group-hover:text-black transition-colors">图案设计 // PATTERN</span>
-                        <div className="w-8 h-[0.5px] bg-black/20 group-hover:w-12 group-hover:bg-black transition-all duration-500" />
-                      </div>
-                    </button>
-                  </div>
-                </div>
               </motion.div>
             )}
 
